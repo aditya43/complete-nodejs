@@ -1,6 +1,7 @@
 **/node_modules
 **/.env
 **/npm-debug.log
+**/package-lock.json
 **/.vscode
 **/vendor
 **/public
