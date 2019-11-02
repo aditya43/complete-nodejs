@@ -1,0 +1,10 @@
+**/node_modules
+**/.env
+**/npm-debug.log
+**/.vscode
+**/vendor
+**/public
+**/Homestead.yaml
+**/Homestead.json
+**/.idea
+**/.vagrant
