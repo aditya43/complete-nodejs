@@ -1,15 +1,15 @@
 {
-  "name": "2-nodemon-setup",
-  "version": "1.0.0",
-  "description": "Nodemon setup",
-  "main": "app.js",
-  "scripts": {
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Aditya Hajare",
-  "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^1.19.4"
-  }
+    "name": "2-nodemon-setup",
+    "version": "1.0.0",
+    "description": "Nodemon setup",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Aditya Hajare",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^1.19.4"
+    }
 }
