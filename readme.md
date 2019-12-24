@@ -47,3 +47,4 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     * And it looks at the `Callback Queue`.
 - If the `Call Stack` is empty, it's going the run the items from `Callback Queue`.
 - The `Event Loop` actually have to wait until `Call Stack` is empty before it could run items from `Callback Queue`.
+- None of our `Asynchronous Functions` are going to run unless `main() Function` is done executing.
