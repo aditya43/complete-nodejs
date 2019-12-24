@@ -32,4 +32,4 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     chrome://inspect/#devices
     ```
 - You should see your current Node app under `Remote Target`. Click on `inspect` link.
-- On left hand side, click on `Add folder to workspace`.
+- On left hand side, click on `Add folder to workspace` and add your project directory.
