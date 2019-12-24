@@ -13,7 +13,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Debugging Using Node Debugger](#debugging-using-node-debugger)
 
 ### Debugging Using Node Debugger
-- Add `debugger` keyword wherever you want stop your program execution and begin debugging. For e.g. Consider following code:
+- Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
     ```
     //app.js
 
