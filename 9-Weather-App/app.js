@@ -15,7 +15,7 @@ request({ url: weatherUrl, json: true }, (error, response) => {
     if (!error && response.body.daily) {
         const res = response.body;
 
-        console.log(`${res.daily.data[0].summary}. It is currently ${res.currently.temperature} degrees out. There is a ${res.currently.precipProbability}% chance of rain right now.`)
+        console.log(`${res.daily.data[0].summary}. It is currently ${res.currently.temperature} degrees out. There is a ${res.currently.precipProbability}% chance of rain right now.`);
     }
 });
 
@@ -35,4 +35,4 @@ request({ url: mapLatLongUrl, json: true }, (error, response) => {
         console.dir(latitude);
         console.dir(longitude);
     }
-})
+});
