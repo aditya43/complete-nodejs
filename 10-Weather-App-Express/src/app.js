@@ -26,7 +26,7 @@ app.get('/weather', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about', {
-        pageTitle: 'Weather App About Page',
+        pageTitle: 'About Page',
         name: 'Aditya Hajare'
     });
 });
