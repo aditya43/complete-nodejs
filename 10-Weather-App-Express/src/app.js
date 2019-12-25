@@ -43,7 +43,7 @@ app.get('/help/*', (req, res) => {
     // To handle help specific 404 pages using Express wildcard '*'.
     res.render('404', {
         errorMsg: 'Help article not found',
-        pageTitle: 'Help Page',
+        pageTitle: '404 Not Found',
         name: 'Aditya Hajare'
     });
 });
@@ -53,7 +53,7 @@ app.get('*', (req, res) => {
     // This is useful for 404.
     res.render('404', {
         errorMsg: '404 Page Not Found!',
-        pageTitle: '404 - Page Not Found',
+        pageTitle: '404 Not Found',
         name: 'Aditya Hajare'
     });
 });
