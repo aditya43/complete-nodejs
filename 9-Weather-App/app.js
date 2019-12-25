@@ -6,12 +6,13 @@ const address = process.argv[2];
 if (!address) {
     console.log('Please provide an address');
 } else {
-    geocode('Pune Koregaon Park', (error, data) => {
+    geocode(address, (error, { latitude, longitude, location }) => {
+        // 'latitude', 'longitude' and 'location' - Using object destructuring.
         if (error) {
             return console.log(error);
         }
 
-        forecast(data.latitude, data.longitude, (error, msg) => {
+        forecast(latitude, longitude, location, (error, msg) => {
             if (error) {
                 return console.log(error);
             }
