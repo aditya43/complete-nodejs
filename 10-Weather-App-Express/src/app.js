@@ -18,9 +18,15 @@ app.get('', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
-    res.send({ // Sending JSON.
-        forecast: 'It is raining',
-        location: 'Koregaon Park, Pune'
+    if (!req.query.address) {
+        return res.send({
+            error: 400,
+            message: 'Address must be provided'
+        });
+    }
+
+    res.send({
+        address: req.query.address
     });
 });
 
