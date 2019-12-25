@@ -1,12 +1,14 @@
 const path = require('path');
 const express = require('express');
+const hbs = require('hbs');
 
 const app = express();
 
 app.set('view engine', 'hbs'); // Set templating engine.
 
-app.set('views', path.join(__dirname, '../views')); // Set default path for views.
 app.use(express.static(path.join(__dirname, '../public'))); // Set default path to Static Assets (public directory).
+app.set('views', path.join(__dirname, '../templates/views')); // Set default path for views.
+hbs.registerPartials(path.join(__dirname, '../templates/partials')); // Set default path for views partials.
 
 app.get('/weather', (req, res) => {
     res.send({ // Sending JSON.
@@ -25,7 +27,8 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res) => {
     res.render('help', {
         pageTitle: 'Help Page',
-        message: 'This is a sample help message'
+        message: 'This is a sample help message',
+        name: 'Aditya Hajare'
     });
 });
 
