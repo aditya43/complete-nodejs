@@ -3,11 +3,13 @@ const express = require('express');
 
 const app = express();
 
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, '../public'))); // Static Assets
+app.set('view engine', 'hbs'); // Set templating engine.
+
+app.set('views', path.join(__dirname, '../views')); // Set default path for views.
+app.use(express.static(path.join(__dirname, '../public'))); // Set default path to Static Assets (public directory).
 
 app.get('/weather', (req, res) => {
-    res.send({ // Sending JSON
+    res.send({ // Sending JSON.
         forecast: 'It is raining',
         location: 'Koregaon Park, Pune'
     });

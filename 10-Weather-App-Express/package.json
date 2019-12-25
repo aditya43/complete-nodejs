@@ -1,5 +1,5 @@
 {
-  "name": "10-Weather-App-Express",
+  "name": "weather_app_express",
   "version": "1.0.0",
   "description": "",
   "main": "src/app.js",
