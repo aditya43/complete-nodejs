@@ -2,20 +2,22 @@ var express = require('express');
 
 const app = express();
 
-app.get('', (req, res) => {
-    res.send('Hello World');
-});
-
-app.get('/help', (req, res) => {
-    res.send('Help Page');
-});
-
 app.get('/about', (req, res) => {
-    res.send('About Page');
+    res.send('<h1>About</h1>'); // Sending HTML
 });
 
 app.get('/weather', (req, res) => {
-    res.send('Weather Page');
+    res.send({ // Sending JSON
+        forecast: 'It is raining',
+        location: 'Koregaon Park, Pune'
+    });
+});
+
+app.get('/help', (req, res) => {
+    res.send([ // Sending array, still be sent as JSON.
+        'Aditya',
+        'Nishigandha'
+    ]);
 });
 
 app.listen(3000, () => {
