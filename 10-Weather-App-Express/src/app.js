@@ -2,6 +2,9 @@ const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
 
+const geocode = require('./../utils/geocode');
+const forecast = require('./../utils/forecast');
+
 const app = express();
 
 app.set('view engine', 'hbs'); // Set templating engine.
@@ -25,8 +28,29 @@ app.get('/weather', (req, res) => {
         });
     }
 
-    res.send({
-        address: req.query.address
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+        // 'latitude', 'longitude' and 'location' - Using object destructuring.
+        if (error) {
+            return res.send({
+                code: 400,
+                error
+            });
+        }
+
+        forecast(latitude, longitude, location, (error, msg) => {
+            if (error) {
+                return res.send({
+                    code: 400,
+                    error
+                });
+            }
+
+            res.send({
+                forecast: msg,
+                location,
+                address: req.query.address
+            });
+        });
     });
 });
 
