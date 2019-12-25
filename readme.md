@@ -1,5 +1,9 @@
 ## About This Project
-Complete NodeJS guide.
+NodeJS - Express, Mongo, Sequelize, Mongoose, Socket.io & lot more.
+My personal notes and apps.
+
+## Author
+Aditya Hajare ([Linkedin](https://in.linkedin.com/in/aditya-hajare)).
 
 ## Current Status
 WIP (Work In Progress)!
