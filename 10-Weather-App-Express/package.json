@@ -1,20 +1,20 @@
 {
-  "name": "weather_app_express",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1",
-    "hbs": "^4.0.6",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
-  }
+    "name": "weather_app_express",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "node src/app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "hbs": "^4.0.6",
+        "request": "^2.88.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    }
 }

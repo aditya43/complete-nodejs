@@ -8,7 +8,7 @@ if (document.querySelector('form')) {
 
         const location = document.querySelector('input').value;
 
-        fetch(`http://localhost:3000/weather?address=${location}`)
+        fetch(`/weather?address=${location}`)
             .then(res => {
                 res.json().then(data => {
                     if (data.error) {
