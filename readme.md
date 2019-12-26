@@ -17,6 +17,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Debugging Using Node Debugger](#debugging-using-node-debugger)
 - [Call Stack](#call-stack)
 - [Event Loop](#event-loop)
+- [Deploying Weather App On Heroku](#deploying-weather-app-on-heroku)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -53,3 +54,27 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - The `Event Loop` actually have to wait until `Call Stack` is empty before it could run items from `Callback Queue`.
 - None of our `Asynchronous Functions` are going to run unless `main() Function` is done executing.
 - Node uses other threads (`C++`) behind the scene for `Node APIs`.
+
+### Deploying Weather App On Heroku
+- Go to local Git repository root directory or project root directory.
+- Execute following command:
+    ```
+    heroku create [SUB_DOMAIN]
+
+    // For e.g.
+    heroku create aditya-hajare-weather-app
+    ```
+- **NOTE:** `aditya-hajare-weather-app` is the sub-domain and it must be unique across `Heroku`.
+- Execute `git remote` to list remote branches. You should see something like below:
+    ```
+    heroku
+    origin
+    ```
+- **NOTE:** `heroku` is listed under `remotes`.
+- To deploy contents of specific directory to heroku root:
+    ```
+    git subtree push --prefix [DIRECTORY_NAME] heroku master
+
+    // For e.g.
+    git subtree push --prefix 10-Weather-App-Express heroku master
+    ```
