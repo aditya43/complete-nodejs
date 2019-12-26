@@ -1,12 +1,12 @@
 {
-  "name": "task_manager_app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Aditya Hajare",
-  "license": "ISC"
+    "name": "task_manager_app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Aditya Hajare",
+    "license": "ISC"
 }
