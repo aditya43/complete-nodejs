@@ -71,10 +71,20 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     origin
     ```
 - **NOTE:** `heroku` is listed under `remotes`.
-- To deploy contents of specific directory to heroku root:
+- To Deploy:
+    * To deploy master branch to Heroku:
+    ```
+    git push heroku master
+    ```
+    * To deploy contents of specific directory to Heroku root:
     ```
     git subtree push --prefix [DIRECTORY_NAME] heroku master
 
     // For e.g.
     git subtree push --prefix 10-Weather-App-Express heroku master
+    ```
+- After deployment, you can visit your app in browser. For e.g.
+    ```
+    // Weather App on Heroku:
+    https://aditya-hajare-weather-app.herokuapp.com/
     ```
