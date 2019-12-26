@@ -4,7 +4,7 @@
 **/package-lock.json
 **/.vscode
 **/vendor
-**/public
+#**/public
 **/Homestead.yaml
 **/Homestead.json
 **/.idea

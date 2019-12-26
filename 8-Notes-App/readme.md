@@ -5,7 +5,7 @@ Notes App - Using `Yargs` plugin.
 Aditya Hajare ([Linkedin](https://in.linkedin.com/in/aditya-hajare)).
 
 ## Current Status
-WIP (Work In Progress)!
+Done. Last Updated: 25 December 2019
 
 ## License
 Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
