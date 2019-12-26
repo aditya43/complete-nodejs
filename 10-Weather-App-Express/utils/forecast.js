@@ -9,7 +9,7 @@ const forecast = (latitude, longitude, location, callback) => {
         } else if (body.error) {
             callback('Unable to find location, try another search!', undefined);
         } else {
-            callback(undefined, `${body.daily.data[0].summary}. It is currently ${body.currently.temperature} degree celsius at ${location}. There is a ${body.currently.precipProbability}% chance of rain right now.`);
+            callback(undefined, `${body.daily.data[0].summary}. It is currently ${body.currently.temperature} degree celsius at ${location}. The highest temprature recorded today is ${body.daily.data[0].temperatureHigh} with a lowest temprature of ${body.daily.data[0].temperatureLow} degree celsius. There is a ${body.currently.precipProbability}% chance of rain right now.`);
         }
     });
 };
