@@ -15,23 +15,39 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const User = mongoose.model('User', {
-    name: {
+const Task = mongoose.model('Task', {
+    description: {
         type: String
     },
-    age: {
-        type: Number
+    completed: {
+        type: Boolean
     }
 });
 
-const jane = new User({
-    name: 'Jane Doe',
-    age: 35
+const task = new Task({
+    description: 'Sample Task 6',
+    completed: true
 });
 
-jane.save()
-    .then(res => {
-        console.log(res);
-    }).catch(err => {
-        console.log(err);
-    });
+task.save().then(res => console.log(res)).catch(err => console.log(err));
+
+// const User = mongoose.model('User', {
+//     name: {
+//         type: String
+//     },
+//     age: {
+//         type: Number
+//     }
+// });
+
+// const jane = new User({
+//     name: 'Jane Doe',
+//     age: 35
+// });
+
+// jane.save()
+//     .then(res => {
+//         console.log(res);
+//     }).catch(err => {
+//         console.log(err);
+//     });
