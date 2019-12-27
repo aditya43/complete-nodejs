@@ -8,5 +8,8 @@
     },
     "keywords": [],
     "author": "Aditya Hajare",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "mongodb": "^3.4.1"
+    }
 }
