@@ -16,64 +16,66 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// const Task = mongoose.model('Task', {
-//     description: {
-//         type: String
-//     },
-//     completed: {
-//         type: Boolean
-//     }
-// });
-
-// const task = new Task({
-//     description: 'Sample Task 6',
-//     completed: true
-// });
-
-// task.save().then(res => console.log(res)).catch(err => console.log(err));
-
-const User = mongoose.model('User', {
-    name: {
+const Task = mongoose.model('Task', {
+    description: {
         type: String,
-        required: true,
-        trim: true
-    },
-    age: {
-        type: Number,
-        default: 0,
-        validate (value) {
-            if (value < 0) {
-                throw new Error('Age must be positive number');
-            }
-        }
-    },
-    email: {
-        type: String,
-        required: true,
         trim: true,
-        lowercase: true,
-        validate (value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Invalid email address');
-            }
-        }
+        required: true
     },
-    password: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 7,
-        validate (value) {
-            if (value.toLowerCase().includes('password')) {
-                throw new Error(`Password cannot contain the word 'password'`);
-            }
-        }
+    completed: {
+        type: Boolean,
+        default: false
     }
 });
 
-const jane = new User({
-    name: 'Jane Doe',
-    age: 35
+const task = new Task({
+    description: 'Sample Task 7'
 });
 
-jane.save().then(res => console.log(res)).catch(err => console.log(err));
+task.save().then(res => console.log(res)).catch(err => console.log(err));
+
+// const User = mongoose.model('User', {
+//     name: {
+//         type: String,
+//         required: true,
+//         trim: true
+//     },
+//     age: {
+//         type: Number,
+//         default: 0,
+//         validate (value) {
+//             if (value < 0) {
+//                 throw new Error('Age must be positive number');
+//             }
+//         }
+//     },
+//     email: {
+//         type: String,
+//         required: true,
+//         trim: true,
+//         lowercase: true,
+//         validate (value) {
+//             if (!validator.isEmail(value)) {
+//                 throw new Error('Invalid email address');
+//             }
+//         }
+//     },
+//     password: {
+//         type: String,
+//         required: true,
+//         trim: true,
+//         minlength: 7,
+//         validate (value) {
+//             if (value.toLowerCase().includes('password')) {
+//                 throw new Error(`Password cannot contain the word 'password'`);
+//             }
+//         }
+//     }
+// });
+
+// const jane = new User({
+//     name: 'Jane Doe',
+//     age: 35
+// });
+
+// jane.save().then(res => console.log(res)).catch(err => console.log(err));
