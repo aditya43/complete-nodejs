@@ -57,6 +57,17 @@ const User = mongoose.model('User', {
                 throw new Error('Invalid email address');
             }
         }
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 7,
+        validate (value) {
+            if (value.toLowerCase().includes('password')) {
+                throw new Error(`Password cannot contain the word 'password'`);
+            }
+        }
     }
 });
 
