@@ -2,15 +2,10 @@
 // const MongoClient = mongodb.MongoClient;
 // const ObjectID = mongodb.ObjectID;
 
-const { MongoClient, ObjectID } = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const connectionUrl = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager-app';
-
-const id = new ObjectID();
-
-console.log('Custom Mongo Object Id:', id);
-console.log('Object Id Timestamp:', id.getTimestamp());
 
 MongoClient.connect(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
     if (error) {
@@ -46,4 +41,16 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true, useUnifiedTopology: 
 
     //     console.log(res.ops);
     // });
+
+    db.collection('tasks').find({ completed: false }).toArray((error, tasks) => {
+        console.log(tasks);
+    })
+
+    db.collection('tasks').findOne({ description: 'Sample Task 2' }, (error, task) => {
+        if (error) {
+            console.log('Failed to fetch task', error);
+        }
+
+        console.log(task);
+    })
 });
