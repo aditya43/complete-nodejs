@@ -46,6 +46,48 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
+app.patch('/users/:id', async (req, res) => {
+    const parameters = Object.keys(req.body);
+    const allowedUpdates = ['name', 'email', 'password', 'age'];
+    const isParamAllowedToUpdated = parameters.every(param => allowedUpdates.includes(param));
+
+    if (!isParamAllowedToUpdated) {
+        return res.status(400).send({ error: 'Invalid updates' });
+    }
+
+    try {
+        const _id = req.params.id;
+        const user = await User.findByIdAndUpdate(_id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        if (!user) {
+            return res.status(404).send({ error: 'User not found!' });
+        }
+
+        return res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+app.delete('/users/:id', async (req, res) => {
+    const _id = req.params.id;
+
+    try {
+        const user = await User.findByIdAndDelete(_id);
+
+        if (!user) {
+            res.status(400).send({ error: 'User not found!' });
+        }
+
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
 app.post('/tasks', async (req, res) => {
     const task = new Task(req.body);
 
@@ -79,6 +121,50 @@ app.get('/tasks/:id', async (req, res) => {
         res.status(200).send(task);
     } catch (e) {
         res.status(500).send(e);
+    }
+});
+
+app.patch('/tasks/:id', async (req, res) => {
+    const parameters = Object.keys(req.body);
+    const allowedUpdates = ['description', 'completed'];
+    const isParamAllowedToUpdated = parameters.every(param => allowedUpdates.includes(param))
+    ;
+
+    if (!isParamAllowedToUpdated) {
+        return res.status(400).send({ error: 'Invalid updates' });
+    }
+
+    try {
+        const _id = req.params.id;
+
+        const task = await Task.findByIdAndUpdate(_id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        if (!task) {
+            res.status(404).send({ error: 'Task not found!' });
+        }
+
+        res.status(200).send(task);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+app.delete('/tasks/:id', async (req, res) => {
+    const _id = req.params.id;
+
+    try {
+        const task = await Task.findByIdAndDelete(_id);
+
+        if (!task) {
+            res.status(400).send({ error: 'Task not found!' });
+        }
+
+        res.status(200).send(task);
+    } catch (e) {
+        res.status(400).send(e);
     }
 });
 
