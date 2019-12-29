@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
         lowercase: true,
         validate (value) {
@@ -41,6 +42,23 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        throw new Error('Invalid credentials'); // User not found for given email
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+        throw new Error('Invalid credentials'); // Password doesn't match
+    }
+
+    return user;
+};
+
+// Hash the plain text password before saving.
 userSchema.pre('save', async function (next) { // Using standard function since arrow functions don't bind 'this'.
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 8);

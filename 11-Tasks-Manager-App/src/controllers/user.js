@@ -83,3 +83,12 @@ exports.delete = async (req, res) => {
         res.status(400).send(e);
     }
 };
+
+exports.login = async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password);
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send({ error: 'Invalid credentials' });
+    }
+};
