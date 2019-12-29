@@ -16,8 +16,7 @@ exports.add = async (req, res) => {
 
 exports.get = async (req, res) => {
     try {
-        const users = await User.find();
-        res.status(200).send(users);
+        res.status(200).send(req.user);
     } catch (e) {
         res.status(500).send(e);
     }
