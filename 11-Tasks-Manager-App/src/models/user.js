@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -39,9 +40,26 @@ const userSchema = new mongoose.Schema({
                 throw new Error(`Password cannot contain the word 'password'`);
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 });
 
+// methods = 'generateJwtAuthToken' method can be called on an instance of 'User' model.
+userSchema.methods.generateJwtAuthToken = async function () {
+    const token = jwt.sign({ _id: this._id.toString() }, 'random-secret-characters');
+    this.tokens = this.tokens.concat({ token }); // Save token to 'User' model.
+
+    await this.save(); // Save 'User' model
+
+    return token;
+};
+
+// statics = 'findByCredentials' method will be accessible for calling on 'User' model itself.
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
 

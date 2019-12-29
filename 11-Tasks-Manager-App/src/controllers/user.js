@@ -3,11 +3,12 @@ require('../db/mongoose'); // Database connection
 const User = require('../models/user');
 
 exports.add = async (req, res) => {
-    const user = new User(req.body);
-
     try {
+        const user = new User(req.body);
         await user.save();
-        res.status(201).send(user);
+        const jwtToken = await user.generateJwtAuthToken();
+
+        res.status(201).send({ user, jwtToken });
     } catch (e) {
         res.status(400).send(e);
     }
@@ -87,7 +88,9 @@ exports.delete = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
-        res.status(200).send(user);
+        const jwtToken = await user.generateJwtAuthToken();
+
+        res.status(200).send({ user, jwtToken });
     } catch (e) {
         res.status(400).send({ error: 'Invalid credentials' });
     }
