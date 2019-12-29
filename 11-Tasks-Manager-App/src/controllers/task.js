@@ -49,12 +49,15 @@ exports.update = async (req, res) => {
     }
 
     try {
+        // If we use findByIdAndUpdate(), Mongoose middleware won't be executed.
         const _id = req.params.id;
+        const task = await Task.findById(_id);
 
-        const task = await Task.findByIdAndUpdate(_id, req.body, {
-            new: true,
-            runValidators: true
+        parameters.forEach(param => {
+            task[param] = req.body[param];
         });
+
+        await task.save();
 
         if (!task) {
             res.status(404).send({ error: 'Task not found!' });
