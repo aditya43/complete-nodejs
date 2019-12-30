@@ -49,6 +49,13 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+// User --> Tasks Relation.
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+});
+
 // methods = 'generateJwtAuthToken' method can be called on an instance of 'User' model.
 userSchema.methods.generateJwtAuthToken = async function () {
     const token = jwt.sign({ _id: this._id.toString() }, 'random-secret-characters');
