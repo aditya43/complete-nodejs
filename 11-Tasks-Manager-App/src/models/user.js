@@ -59,6 +59,16 @@ userSchema.methods.generateJwtAuthToken = async function () {
     return token;
 };
 
+// To remove 'password' and 'tokens' data from 'user' object when returned.
+userSchema.methods.toJSON = function () {
+    const user = this.toObject();
+
+    delete user.password;
+    delete user.tokens;
+
+    return user;
+};
+
 // statics = 'findByCredentials' method will be accessible for calling on 'User' model itself.
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
