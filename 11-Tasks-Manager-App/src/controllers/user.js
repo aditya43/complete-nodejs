@@ -49,36 +49,22 @@ exports.update = async (req, res) => {
 
     try {
         // If we use findByIdAndUpdate(), Mongoose middleware won't be executed.
-        const _id = req.params.id;
-        const user = await User.findById(_id);
-
         parameters.forEach((param) => {
-            user[param] = req.body[param];
+            req.user[param] = req.body[param];
         });
 
-        await user.save();
+        await req.user.save();
 
-        if (!user) {
-            return res.status(404).send({ error: 'User not found!' });
-        }
-
-        return res.status(200).send(user);
+        return res.status(200).send(req.user);
     } catch (e) {
         res.status(400).send(e);
     }
 };
 
 exports.delete = async (req, res) => {
-    const _id = req.params.id;
-
     try {
-        const user = await User.findByIdAndDelete(_id);
-
-        if (!user) {
-            res.status(400).send({ error: 'User not found!' });
-        }
-
-        res.status(200).send(user);
+        await req.user.remove();
+        res.status(200).send(req.user);
     } catch (e) {
         res.status(400).send(e);
     }
