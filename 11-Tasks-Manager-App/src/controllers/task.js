@@ -18,8 +18,8 @@ exports.add = async (req, res) => {
 
 exports.get = async (req, res) => {
     try {
-        const tasks = await Task.find();
-        res.status(200).send(tasks);
+        await req.user.populate('tasks').execPopulate();
+        res.status(200).send(req.user.tasks);
     } catch (e) {
         res.status(500).send(e);
     }
