@@ -10,5 +10,7 @@ router.get('/users/:id', userController.find);
 router.patch('/users/:id', userController.update);
 router.delete('/users/:id', userController.delete);
 router.post('/users/login', userController.login);
+router.post('/users/logout', authMiddleware, userController.logout);
+router.post('/users/logoutAll', authMiddleware, userController.logoutAll);
 
 module.exports = router;
