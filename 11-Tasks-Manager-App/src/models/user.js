@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const Task = require('../models/task');
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -100,6 +102,11 @@ userSchema.pre('save', async function (next) { // Using standard function since 
     }
 
     next(); // If we don't call 'next()' code will hang here forever and user won't be saved.
+});
+
+userSchema.pre('remove', async function (next) {
+    await Task.deleteMany({ owner: this._id });
+    next();
 });
 
 const User = mongoose.model('User', userSchema);
