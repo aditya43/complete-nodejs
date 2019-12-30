@@ -18,9 +18,15 @@ exports.add = async (req, res) => {
 
 exports.get = async (req, res) => {
     const match = {};
+    const sort = {};
 
     if (req.query.completed) {
         match.completed = req.query.completed === 'true';
+    }
+
+    if (req.query.sortBy) {
+        const sortByParts = req.query.sortBy.split(':');
+        sort[sortByParts[0]] = sortByParts[1] === 'asc' ? 1 : -1;
     }
 
     try {
@@ -32,7 +38,8 @@ exports.get = async (req, res) => {
             match,
             options: {
                 limit: parseInt(limit),
-                skip: parseInt(skip)
+                skip: parseInt(skip),
+                sort
             }
         }).execPopulate();
         res.status(200).send(req.user.tasks);
