@@ -8,6 +8,6 @@ router.post('/tasks', authMiddleware, taskController.add);
 router.get('/tasks', authMiddleware, taskController.get);
 router.get('/tasks/:id', authMiddleware, taskController.find);
 router.patch('/tasks/:id', authMiddleware, taskController.update);
-router.delete('/tasks/:id', taskController.delete);
+router.delete('/tasks/:id', authMiddleware, taskController.delete);
 
 module.exports = router;
