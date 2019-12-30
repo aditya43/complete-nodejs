@@ -3,7 +3,10 @@ require('../db/mongoose'); // Database connection
 const Task = require('../models/task');
 
 exports.add = async (req, res) => {
-    const task = new Task(req.body);
+    const task = new Task({
+        ...req.body,
+        owner: req.user._id
+    });
 
     try {
         await task.save();
