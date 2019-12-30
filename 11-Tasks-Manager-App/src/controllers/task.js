@@ -27,12 +27,13 @@ exports.get = async (req, res) => {
 
 exports.find = async (req, res) => {
     try {
-        const _id = req.params.id;
-
-        const task = await Task.findById(_id);
+        const task = await Task.findOne({
+            _id: req.params.id,
+            owner: req.user._id
+        });
 
         if (!task) {
-            res.status(404).send({});
+            res.status(404).send({ error: 'Task not found!' });
         }
 
         res.status(200).send(task);
