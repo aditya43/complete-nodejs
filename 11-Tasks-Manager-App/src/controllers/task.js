@@ -24,9 +24,16 @@ exports.get = async (req, res) => {
     }
 
     try {
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
         await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                limit: parseInt(limit),
+                skip: parseInt(skip)
+            }
         }).execPopulate();
         res.status(200).send(req.user.tasks);
     } catch (e) {
