@@ -39,7 +39,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test User3\",\n\t\"email\": \"test3@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
+							"raw": "{\n\t\"name\": \"Test User1\",\n\t\"email\": \"test1@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -53,6 +53,36 @@
 							],
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/adiinviter/Downloads/Aditya-Hajare.jpeg",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/users/me/avatar",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"me",
+								"avatar"
 							]
 						}
 					},
@@ -89,7 +119,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"test3@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
+							"raw": "{\n\t\"email\": \"test1@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -230,7 +260,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Nishigandha\",\n\t\"password\": \"nishi123\"\n}",
+							"raw": "{\n\t\"age\": 32\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,13 +268,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/users/5e074bae27d17e09495ffcb3",
+							"raw": "{{URL}}/users/me",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"users",
-								"5e074bae27d17e09495ffcb3"
+								"me"
 							]
 						}
 					},
@@ -256,13 +286,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/users/5e0567c06778b50ac21a37dc",
+							"raw": "{{URL}}/users/me",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"users",
-								"5e0567c06778b50ac21a37dc"
+								"me"
 							]
 						}
 					},
@@ -288,7 +318,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"description\": \"Adi Test 3\",\n\t\"completed\": true\n}",
+							"raw": "{\n\t\"description\": \"Adi Test 3\",\n\t\"completed\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -313,12 +343,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/tasks",
+							"raw": "{{URL}}/tasks?sortBy=createdAt:desc",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"tasks"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "createdAt:desc"
+								}
 							]
 						}
 					},
@@ -330,13 +366,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/tasks/5e074bc727d17e09495ffcb4",
+							"raw": "{{URL}}/tasks/5e09a623259e6a0eced842eb",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"tasks",
-								"5e074bc727d17e09495ffcb4"
+								"5e09a623259e6a0eced842eb"
 							]
 						}
 					},
@@ -356,7 +392,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"completed\": true\n}",
+							"raw": "{\n\t\"completed\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,13 +400,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/tasks/5e06ca2e3a7c9c0a1b625939",
+							"raw": "{{URL}}/tasks/5e09a623259e6a0eced842eb",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"tasks",
-								"5e06ca2e3a7c9c0a1b625939"
+								"5e09a623259e6a0eced842eb"
 							]
 						}
 					},
