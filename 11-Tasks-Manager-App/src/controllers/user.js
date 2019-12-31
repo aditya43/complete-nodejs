@@ -105,6 +105,18 @@ exports.logoutAll = async (req, res) => {
     }
 };
 
-exports.setAvatar = async (req, res) => {
+exports.setAvatar = async (error, req, res, next) => {
+    if (error) {
+        return res.status(400).send({ error: error.message });
+    }
+
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
+    res.send();
+};
+
+exports.deleteAvatar = async (req, res) => {
+    req.user.avatar = undefined;
+    await req.user.save();
     res.send();
 };
