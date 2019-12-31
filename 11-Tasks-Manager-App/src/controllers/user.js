@@ -1,3 +1,4 @@
+const sharp = require('sharp');
 require('../db/mongoose'); // Database connection
 
 const User = require('../models/user');
@@ -110,7 +111,12 @@ exports.setAvatar = async (req, res, next) => {
         return res.status(400).send({ error: 'Please upload image file. Supported extensions: .jpg, .jpeg, .png' });
     }
 
-    req.user.avatar = req.file.buffer;
+    const buffer = await sharp(req.file.buffer)
+        .resize({width: 250, height: 250})
+        .png()
+        .toBuffer();
+
+    req.user.avatar = buffer;
     await req.user.save();
     res.send();
 };
@@ -129,7 +135,7 @@ exports.getAvatar = async (req, res, next) => {
             throw new Error('Avatar image not found!');
         }
 
-        res.set('Content-Type', 'image/jpg');
+        res.set('Content-Type', 'image/png');
         res.send(user.avatar);
     } catch (error) {
         res.status(404).send(error)
