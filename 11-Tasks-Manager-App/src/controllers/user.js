@@ -2,11 +2,13 @@ const sharp = require('sharp');
 require('../db/mongoose'); // Database connection
 
 const User = require('../models/user');
+const { welcomeEmail, accountCancellationEmail } = require('../emails/account');
 
 exports.add = async (req, res) => {
     try {
         const user = new User(req.body);
         await user.save();
+        welcomeEmail(user.email, user.name);
         const jwtToken = await user.generateJwtAuthToken();
 
         res.status(201).send({ user, jwtToken });
@@ -64,6 +66,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
+        accountCancellationEmail(req.user.email, req.user.name);
         await req.user.remove();
         res.status(200).send(req.user);
     } catch (e) {
