@@ -1,11 +1,14 @@
+const sharp = require('sharp');
 require('../db/mongoose'); // Database connection
 
 const User = require('../models/user');
+const { welcomeEmail, accountCancellationEmail } = require('../emails/account');
 
 exports.add = async (req, res) => {
     try {
         const user = new User(req.body);
         await user.save();
+        welcomeEmail(user.email, user.name);
         const jwtToken = await user.generateJwtAuthToken();
 
         res.status(201).send({ user, jwtToken });
@@ -63,6 +66,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
+        accountCancellationEmail(req.user.email, req.user.name);
         await req.user.remove();
         res.status(200).send(req.user);
     } catch (e) {
@@ -105,12 +109,17 @@ exports.logoutAll = async (req, res) => {
     }
 };
 
-exports.setAvatar = async (error, req, res, next) => {
-    if (error) {
-        return res.status(400).send({ error: error.message });
+exports.setAvatar = async (req, res, next) => {
+    if (!req.file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+        return res.status(400).send({ error: 'Please upload image file. Supported extensions: .jpg, .jpeg, .png' });
     }
 
-    req.user.avatar = req.file.buffer;
+    const buffer = await sharp(req.file.buffer)
+        .resize({width: 250, height: 250})
+        .png()
+        .toBuffer();
+
+    req.user.avatar = buffer;
     await req.user.save();
     res.send();
 };
@@ -120,3 +129,18 @@ exports.deleteAvatar = async (req, res) => {
     await req.user.save();
     res.send();
 };
+
+exports.getAvatar = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user || !user.avatar) {
+            throw new Error('Avatar image not found!');
+        }
+
+        res.set('Content-Type', 'image/png');
+        res.send(user.avatar);
+    } catch (error) {
+        res.status(404).send(error)
+    }
+}

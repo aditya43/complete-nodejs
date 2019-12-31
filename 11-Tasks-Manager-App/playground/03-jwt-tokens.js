@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const generate = () => {
-    const token = jwt.sign({ _id: 'user-id-1' }, 'random-series-of-secret-characters', { expiresIn: '1 seconds' });
+    const token = jwt.sign({ _id: 'user-id-1' }, process.env.JWT_SECRET, { expiresIn: '1 seconds' });
 
     return token;
 };
 
 const verify = token => {
-    const data = jwt.verify(token, 'random-series-of-secret-characters');
+    const data = jwt.verify(token, process.env.JWT_SECRET);
 
     console.log(data);
 };

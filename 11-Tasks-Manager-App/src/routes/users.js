@@ -13,7 +13,8 @@ router.delete('/users/me', authMiddleware, userController.delete);
 router.post('/users/login', userController.login);
 router.post('/users/logout', authMiddleware, userController.logout);
 router.post('/users/logoutAll', authMiddleware, userController.logoutAll);
-router.post('/users/me/avatar', authMiddleware, avatarConfig, userController.setAvatar);
+router.post('/users/me/avatar', [authMiddleware, avatarConfig], userController.setAvatar);
 router.delete('/users/me/avatar', authMiddleware, userController.deleteAvatar);
+router.get('/users/:id/avatar', userController.getAvatar);
 
 module.exports = router;
