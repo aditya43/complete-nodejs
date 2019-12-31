@@ -120,3 +120,18 @@ exports.deleteAvatar = async (req, res) => {
     await req.user.save();
     res.send();
 };
+
+exports.getAvatar = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user || !user.avatar) {
+            throw new Error('Avatar image not found!');
+        }
+
+        res.set('Content-Type', 'image/jpg');
+        res.send(user.avatar);
+    } catch (error) {
+        res.status(404).send(error)
+    }
+}
