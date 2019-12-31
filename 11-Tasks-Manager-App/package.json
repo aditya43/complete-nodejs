@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "SET NODE_ENV=prod || export NODE_ENV=prod & nodemon src/index.js",
-        "dev": "SET NODE_ENV=dev || export NODE_ENV=dev & nodemon src/index.js"
+        "start": "NODE_ENV=prod node src/index.js",
+        "dev": "NODE_ENV=dev nodemon src/index.js"
     },
     "keywords": [],
     "author": "Aditya Hajare",
