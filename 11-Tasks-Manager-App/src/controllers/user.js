@@ -105,9 +105,9 @@ exports.logoutAll = async (req, res) => {
     }
 };
 
-exports.setAvatar = async (error, req, res, next) => {
-    if (error) {
-        return res.status(400).send({ error: error.message });
+exports.setAvatar = async (req, res, next) => {
+    if (!req.file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+        return res.status(400).send({ error: 'Please upload image file. Supported extensions: .jpg, .jpeg, .png' });
     }
 
     req.user.avatar = req.file.buffer;
