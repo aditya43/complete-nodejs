@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail');
 
-const sendGridAPIKey = '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';
-const fromMail = 'aditya.hajare@jetsynthesys.com';
+const sendGridAPIKey = process.env.SENDGRID_API_KEY;
+const fromMail = process.env.APP_EMAIL;
 
 sgMail.setApiKey(sendGridAPIKey);
 

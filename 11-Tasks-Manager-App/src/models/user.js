@@ -65,7 +65,7 @@ userSchema.virtual('tasks', {
 
 // methods = 'generateJwtAuthToken' method can be called on an instance of 'User' model.
 userSchema.methods.generateJwtAuthToken = async function () {
-    const token = jwt.sign({ _id: this._id.toString() }, 'random-secret-characters');
+    const token = jwt.sign({ _id: this._id.toString() }, process.env.JWT_SECRET);
     this.tokens = this.tokens.concat({ token }); // Save token to 'User' model.
 
     await this.save(); // Save 'User' model
