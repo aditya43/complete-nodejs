@@ -88,3 +88,12 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     // Weather App on Heroku:
     https://aditya-hajare-weather-app.herokuapp.com/
     ```
+- **Heroku Environment Variables:**
+    * To set environment variable in Heroku environment:
+        ```
+        heroku config:set KEY=VALUE
+        ```
+    * To unset/remove environment variable in Heroku environment:
+        ```
+        heroku config:unset KEY
+        ```
