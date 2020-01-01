@@ -1,4 +1,4 @@
-const { bcryptPasswordEncrypt, bcryptPasswordVerify } = require('../playground/02-password-hashing');
+const { bcryptPasswordEncrypt, bcryptPasswordVerify } = require('../../playground/02-password-hashing');
 
 test('Basic async behaviour testing', (done) => {
     setTimeout(() => {
