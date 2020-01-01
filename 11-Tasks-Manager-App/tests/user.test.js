@@ -135,4 +135,8 @@ test('should update valid user fields', async () => {
             name: 'John Doe'
         })
         .expect(200);
+
+    // Assert that the updated data is correctly stored in database.
+    const user = await User.findById(userOneId);
+    expect(user.name).toEqual('John Doe');
 });
