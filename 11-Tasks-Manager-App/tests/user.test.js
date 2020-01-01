@@ -32,7 +32,7 @@ test('should not allow password to contain word password', async () => {
 });
 
 test('should signup a new user', async () => {
-    await request(app)
+    const response = await request(app)
         .post('/users')
         .send({
             name: 'Aditya Hajare',
@@ -40,16 +40,35 @@ test('should signup a new user', async () => {
             password: 'aditya123!'
         })
         .expect(201);
+
+    // Assert that the database was changed correctly.
+    const user = await User.findById(response.body.user._id);
+    expect(user).not.toBeNull();
+
+    // Assertion about the response.
+    expect(response.body).toMatchObject({
+        user: {
+            name: 'Aditya Hajare',
+            email: 'aditya.hajare@example.com'
+        }
+    });
+
+    // Assert that the plain text password is not stored in database.
+    expect(user.password).not.toBe('aditya123!');
 });
 
 test('should login existing user', async () => {
-    await request(app)
+    const response = await request(app)
         .post('/users/login')
         .send({
             email: userOne.email,
             password: userOne.password
         })
         .expect(200);
+
+    // Assert that the JWT Token stored in database is same as the one received in post login response.
+    const user = await User.findById(response.body.user._id);
+    expect(response.body.jwtToken).toBe(user.tokens[1].token);
 });
 
 test('should not login nonexistent user', async () => {
