@@ -9,7 +9,13 @@ document.querySelector('#message-form').addEventListener('submit', e => {
 
     const message = e.target.elements.message.value;
 
-    socket.emit('sendMessage', message);
+    socket.emit('sendMessage', message, error => {
+        if (error) {
+            console.log('Bad word detected!');
+        }
+
+        console.log('Message delivered!');
+    });
 });
 
 document.querySelector('#send-location').addEventListener('click', e => {
@@ -21,6 +27,8 @@ document.querySelector('#send-location').addEventListener('click', e => {
         socket.emit('sendLocation', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
+        }, () => {
+            console.log('Location shared!');
         });
     });
 });
