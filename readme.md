@@ -18,6 +18,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Call Stack](#call-stack)
 - [Event Loop](#event-loop)
 - [Deploying Weather App On Heroku](#deploying-weather-app-on-heroku)
+- [JEST - Things To Know](#jest---things-to-know)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -97,3 +98,9 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
         ```
         heroku config:unset KEY
         ```
+
+### JEST - Things To Know
+- `.toBe()` uses `===` operator to compare values. i.e.
+    * `1 === 1`: True
+    * `{} === {}`: False. That is because when 2 objects are compared with `===` they are not equal as they are stored in different memory locations.
+- To compare objects in JEST, use `.toEqual()`.
