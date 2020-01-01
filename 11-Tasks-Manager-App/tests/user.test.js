@@ -136,7 +136,17 @@ test('should update valid user fields', async () => {
         })
         .expect(200);
 
-    // Assert that the updated data is correctly stored in database.
+    // Assert that the updated user name is stored in database.
     const user = await User.findById(userOneId);
     expect(user.name).toEqual('John Doe');
+});
+
+test('should not update invalid user fields', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            location: 'Pune'
+        })
+        .expect(400);
 });
