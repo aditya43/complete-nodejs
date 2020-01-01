@@ -23,6 +23,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Event Loop](#event-loop)
 - [Deploying Weather App On Heroku](#deploying-weather-app-on-heroku)
 - [JEST - Things To Know](#jest---things-to-know)
+- [WebSockets Protocol](#websockets-protocol)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -108,3 +109,10 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     * `1 === 1`: True
     * `{} === {}`: False. That is because when 2 objects are compared with `===` they are not equal as they are stored in different memory locations.
 - To compare objects in JEST, use `.toEqual()`.
+
+### WebSockets Protocol
+- `WebSocket` is a separate protocol from `HTTP`.
+- `WebSockets` allow for `Full Duplex Communication`.
+- `Full Duplex Communication` is just a fancy term for `Bi-Directional Communication`.
+- With `WebSockets` we have a `Persistent Connection` between client and server.
+- `Socket.io` needs to be called with a raw `HTTP Server`.
