@@ -13,6 +13,14 @@ beforeEach(async () => {
     await new User(userOne).save();
 });
 
+test('should not allow password to contain word password', async () => {
+    await request(app).post('/users').send({
+        name: 'Aditya Hajare',
+        email: 'aditya.hajare@example.com',
+        password: 'mypassword'
+    }).expect(400);
+});
+
 test('should signup a new user', async () => {
     await request(app).post('/users').send({
         name: 'Aditya Hajare',
