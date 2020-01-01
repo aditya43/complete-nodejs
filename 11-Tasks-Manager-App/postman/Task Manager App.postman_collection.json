@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "025c3adf-babe-4aa3-bca0-de6efb7cd51d",
+		"_postman_id": "9f9c4a56-5939-4bd8-8513-2ee7be1e3ff0",
 		"name": "Task Manager App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -39,7 +39,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Ajit Raut\",\n\t\"email\": \"ajit.raut@jetsynthesys.com\",\n\t\"password\": \"test123\"\n}",
+							"raw": "{\n\t\"name\": \"Test User1\",\n\t\"email\": \"test1@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,7 +69,8 @@
 								{
 									"key": "avatar",
 									"type": "file",
-									"src": "/D:/2018-12-17-23-21-26.jpg"
+									"src": "/Users/adiinviter/Downloads/Aditya-Hajare.jpeg",
+									"disabled": true
 								}
 							]
 						},
@@ -118,7 +119,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"ajit.raut@jetsynthesys.com\",\n\t\"password\": \"test123\"\n}",
+							"raw": "{\n\t\"email\": \"test1@adiinviter.com\",\n\t\"password\": \"test123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -240,25 +241,6 @@
 							"path": [
 								"users",
 								"5e074bae27d17e09495ffcb3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Avatar",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/users/5e0b1e53bf5cb1301c6b7392/avatar",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"users",
-								"5e0b1e53bf5cb1301c6b7392",
-								"avatar"
 							]
 						}
 					},
