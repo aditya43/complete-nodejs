@@ -1,24 +1,10 @@
 const request = require('supertest');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const app = require('../src/app');
 const User = require('../src/models/user');
 
-const userOneId = new mongoose.Types.ObjectId();
-const userOne = {
-    _id: userOneId,
-    name: 'Aditya Hajare',
-    email: 'aditya@hajare.com',
-    password: '1337wtf!!',
-    tokens: [{
-        token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET)
-    }]
-};
+const { userOneId, userOne, populateDatabase } = require('./fixtures/db');
 
-beforeEach(async () => {
-    await User.deleteMany();
-    await new User(userOne).save();
-});
+beforeEach(populateDatabase);
 
 test('should not allow password to contain word password', async () => {
     await request(app)
