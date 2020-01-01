@@ -126,3 +126,13 @@ test('should upload avatar image', async () => {
     const user = await User.findById(userOneId);
     expect(user.avatar).toEqual(expect.any(Buffer));
 });
+
+test('should update valid user fields', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            name: 'John Doe'
+        })
+        .expect(200);
+});
