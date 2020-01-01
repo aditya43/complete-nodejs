@@ -116,3 +116,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - `Full Duplex Communication` is just a fancy term for `Bi-Directional Communication`.
 - With `WebSockets` we have a `Persistent Connection` between client and server.
 - `Socket.io` needs to be called with a raw `HTTP Server`.
+- Event emitters:
+    * `socket.emit('message', 'Welcome')`: Only to self client.
+    * `socket.broadcast.emit('message', 'New user joined')`: All other clients except self.
+    * `io.emit('message', 'X user said hello to all')`: All clients including self.
