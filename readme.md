@@ -117,6 +117,9 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - With `WebSockets` we have a `Persistent Connection` between client and server.
 - `Socket.io` needs to be called with a raw `HTTP Server`.
 - Event emitters:
-    * `socket.emit('message', 'Welcome')`: Only to self client.
-    * `socket.broadcast.emit('message', 'New user joined')`: All other clients except self.
-    * `io.emit('message', 'X user said hello to all')`: All clients including self.
+    * `socket.emit('EVENT_NAME', { dataObject })`: Only to self/specific client.
+    * `socket.broadcast.emit('EVENT_NAME', { dataObject })`: All other clients except self.
+    * `io.emit('EVENT_NAME', { dataObject })`: All clients including self.
+- Event emitters in `Rooms`:
+    * `io.to(room).emit('EVENT_NAME', { dataObject })`: Emits an events to everybody in a specific room.
+    * `socket.broadcast.to(room).emit('EVENT_NAME', { dataObject })`: Emits an events to everybody in a specific room except self/specific client.
