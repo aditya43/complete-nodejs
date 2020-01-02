@@ -1,9 +1,10 @@
 const Filter = require('bad-words');
+const { generateMessage } = require('../utils/messages');
 
 exports.newConnection = (socket, io) => {
     console.log('New websocket connection');
-    socket.emit('message', 'Welcome!');
-    socket.broadcast.emit('message', 'A new user has joined!');
+    socket.emit('message', generateMessage('Welcome!'));
+    socket.broadcast.emit('message', generateMessage('A new user has joined!'));
 
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter();
@@ -12,7 +13,7 @@ exports.newConnection = (socket, io) => {
             return callback('Bad word detected!');
         }
 
-        io.emit('message', message);
+        io.emit('message', generateMessage(message));
         callback();
     });
 
@@ -22,6 +23,6 @@ exports.newConnection = (socket, io) => {
     });
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has left!');
+        io.emit('message', generateMessage('A user has left!'));
     });
 };
