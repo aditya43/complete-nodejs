@@ -11,6 +11,7 @@ WIP (Work In Progress)!
 ## Deployed On Heroku
 - Weather App: [https://aditya-hajare-weather-app.herokuapp.com](https://aditya-hajare-weather-app.herokuapp.com/)
 - Tasks Manager App: [https://aditya-hajare-nodejs-task-app.herokuapp.com](https://aditya-hajare-nodejs-task-app.herokuapp.com/)
+- Socket.io Chat App: [https://aditya-hajare-socket-chat-app.herokuapp.com](https://aditya-hajare-socket-chat-app.herokuapp.com/)
 
 ## License
 Open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
@@ -71,6 +72,13 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     heroku create aditya-hajare-weather-app
     ```
 - **NOTE:** `aditya-hajare-weather-app` is the sub-domain and it must be unique across `Heroku`.
+- From your project root, execute following command:
+    ```
+    heroku git:remote -a [APP_NAME]
+
+    // For e.g.
+    heroku git:remote -a aditya-hajare-weather-app
+    ```
 - Execute `git remote` to list remote branches. You should see something like below:
     ```
     heroku
