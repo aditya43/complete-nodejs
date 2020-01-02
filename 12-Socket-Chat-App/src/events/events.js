@@ -28,6 +28,7 @@ exports.newConnection = (socket, io) => {
         const filter = new Filter();
 
         if (filter.isProfane(message)) {
+            io.to(user.room).emit('message', generateMessage('Admin', 'Bad word detected! Please avoid foul language.'));
             return callback('Bad word detected!');
         }
 
