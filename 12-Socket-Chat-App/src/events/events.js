@@ -1,5 +1,5 @@
 const Filter = require('bad-words');
-const { generateMessage } = require('../utils/messages');
+const { generateMessage, generateLocationMessage } = require('../utils/messages');
 
 exports.newConnection = (socket, io) => {
     console.log('New websocket connection');
@@ -18,7 +18,7 @@ exports.newConnection = (socket, io) => {
     });
 
     socket.on('sendLocation', (coords, callback) => {
-        io.emit('locationMessage', `https://www.google.com/maps?q=${coords.latitude}${coords.longitude}`);
+        io.emit('locationMessage', generateLocationMessage(`https://www.google.com/maps?q=${coords.latitude}${coords.longitude}`));
         callback();
     });
 
