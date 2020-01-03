@@ -13,8 +13,8 @@ const generateLocationMessage = (username, url) => {
         username,
         url,
         createdAt: getTimestamp()
-    }
-}
+    };
+};
 
 module.exports = {
     generateMessage,
