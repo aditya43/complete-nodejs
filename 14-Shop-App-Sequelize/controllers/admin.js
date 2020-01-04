@@ -8,15 +8,19 @@ exports.getAddProduct = (req, res, next) => {
     });
 };
 
-exports.postAddProduct = (req, res, next) => {
-    Product.create({
-        title: req.body.title,
-        description: req.body.description,
-        price: req.body.price,
-        imageUrl: req.body.imageUrl
-    }).then(res => {
-        console.log(res);
-    }).catch(e => console.log(e));
+exports.postAddProduct = async (req, res, next) => {
+    try {
+        await Product.create({
+            title: req.body.title,
+            description: req.body.description,
+            price: req.body.price,
+            imageUrl: req.body.imageUrl
+        });
+
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -66,8 +70,16 @@ exports.getProducts = (req, res, next) => {
         .catch(e => console.log(e));
 };
 
-exports.postDeleteProduct = (req, res, next) => {
-    const prodId = req.body.productId;
-    Product.deleteById(prodId);
-    res.redirect('/admin/products');
+exports.postDeleteProduct = async (req, res, next) => {
+    try {
+        const product = await Product.findOne({ id: req.body.productId });
+
+        if (product) {
+            await product.destroy();
+        }
+
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(e);
+    }
 };
