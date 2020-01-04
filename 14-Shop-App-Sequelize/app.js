@@ -22,6 +22,12 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(async (req, res, next) => {
+    const user = await User.findOne({ id: 1 });
+    req.user = user;
+    next();
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(errorController.get404);
@@ -32,8 +38,19 @@ Product.belongsTo(User, {
 });
 User.hasMany(Product);
 
-sequelize.sync({ force: true })
-    .then(res => {
+sequelize
+// .sync({ force: true })
+    .sync()
+    .then(async res => {
+        let user = await User.findOne({ id: 1 });
+
+        if (!user) {
+            user = User.create({
+                name: 'Aditya Hajare',
+                email: 'aditya@hajare.com'
+            });
+        }
+
         app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
     })
     .catch(e => {
