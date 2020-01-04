@@ -34,25 +34,39 @@ exports.getIndex = (req, res, next) => {
     }).catch(e => console.log(e));
 };
 
-exports.getCart = (req, res, next) => {
-    Cart.getCart(cart => {
-        Product.fetchAll(products => {
-            const cartProducts = [];
-            for (product of products) {
-                const cartProductData = cart.products.find(
-                    prod => prod.id === product.id
-                );
-                if (cartProductData) {
-                    cartProducts.push({ productData: product, qty: cartProductData.qty });
-                }
-            }
-            res.render('shop/cart', {
-                path: '/cart',
-                pageTitle: 'Your Cart',
-                products: cartProducts
-            });
-        });
+exports.getCart = async (req, res, next) => {
+    const cart = await req.user.getCart();
+
+    if (!cart) {
+        res.redirect('/');
+    }
+
+    const products = await cart.getProducts();
+
+    res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: products
     });
+
+    // Cart.getCart(cart => {
+    //     Product.fetchAll(products => {
+    //         const cartProducts = [];
+    //         for (product of products) {
+    //             const cartProductData = cart.products.find(
+    //                 prod => prod.id === product.id
+    //             );
+    //             if (cartProductData) {
+    //                 cartProducts.push({ productData: product, qty: cartProductData.qty });
+    //             }
+    //         }
+    //         res.render('shop/cart', {
+    //             path: '/cart',
+    //             pageTitle: 'Your Cart',
+    //             products: cartProducts
+    //         });
+    //     });
+    // });
 };
 
 exports.postCart = (req, res, next) => {

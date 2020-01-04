@@ -8,6 +8,8 @@ const sequelize = require('./util/database');
 
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 const errorController = require('./controllers/error');
 
@@ -37,9 +39,16 @@ Product.belongsTo(User, {
     onDelete: 'CASCADE'
 });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User, {
+    constraints: true,
+    onDelete: 'CASCADE'
+});
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
-// .sync({ force: true })
+    // .sync({ force: true })
     .sync()
     .then(async res => {
         let user = await User.findOne({ id: 1 });
@@ -51,6 +60,7 @@ sequelize
             });
         }
 
+        user.createCart();
         app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
     })
     .catch(e => {
