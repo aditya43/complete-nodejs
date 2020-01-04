@@ -24,24 +24,27 @@ exports.postAddProduct = async (req, res, next) => {
     }
 };
 
-exports.getEditProduct = (req, res, next) => {
+exports.getEditProduct = async (req, res, next) => {
     const editMode = req.query.edit;
     if (!editMode) {
         return res.redirect('/');
     }
-    const prodId = req.params.productId;
-    Product.findOne({ id: prodId })
-        .then(product => {
-            if (!product) {
-                return res.redirect('/');
-            }
-            res.render('admin/edit-product', {
-                pageTitle: 'Edit Product',
-                path: '/admin/edit-product',
-                editing: editMode,
-                product: product
-            });
-        }).catch(e => console.log(e));
+    const products = await req.user.getProducts({
+        where: {
+            id: req.params.productId
+        }
+    });
+
+    if (!products) {
+        return res.redirect('/');
+    }
+
+    res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: products[0]
+    });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -59,24 +62,26 @@ exports.postEditProduct = (req, res, next) => {
         }).catch(e => console.log(e));
 };
 
-exports.getProducts = (req, res, next) => {
-    Product.findAll({ limit: 50 })
-        .then(products => {
-            res.render('admin/products', {
-                prods: products,
-                pageTitle: 'Admin Products',
-                path: '/admin/products'
-            });
-        })
-        .catch(e => console.log(e));
+exports.getProducts = async (req, res, next) => {
+    const products = await req.user.getProducts();
+
+    if (!products) {
+        res.redirect('/');
+    }
+
+    res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products'
+    });
 };
 
 exports.postDeleteProduct = async (req, res, next) => {
     try {
-        const product = await Product.findOne({ id: req.body.productId });
+        const products = await req.user.getProducts({ id: req.body.productId });
 
-        if (product) {
-            await product.destroy();
+        if (products) {
+            await products[0].destroy();
         }
 
         res.redirect('/admin/products');
