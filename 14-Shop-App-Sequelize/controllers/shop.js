@@ -51,8 +51,9 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.postCart = async (req, res, next) => {
-    const newQuantity = 1;
+    let newQuantity = 1;
     const cart = await req.user.getCart();
+
     const products = await cart.getProducts({ where: { id: req.body.productId } });
 
     if (products.length > 0) {
@@ -61,8 +62,9 @@ exports.postCart = async (req, res, next) => {
 
     const product = await Product.findOne({ id: req.body.productId });
 
-    if (!product) {
-        res.redirect('/');
+    if (product) {
+        const oldQuantity = products[0].cartItem.quantity;
+        newQuantity = oldQuantity + 1;
     }
 
     await cart.addProduct(product, {
