@@ -10,7 +10,8 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
     try {
-        await Product.create({
+        // 'createProduct' is a magic association method.
+        await req.user.createProduct({
             title: req.body.title,
             description: req.body.description,
             price: req.body.price,
