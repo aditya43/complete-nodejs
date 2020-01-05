@@ -85,26 +85,24 @@ exports.postCartDeleteProduct = async (req, res, next) => {
 exports.postOrder = async (req, res, next) => {
     const cart = await req.user.getCart();
     const products = await cart.getProducts();
-    const order = await req.user.createOrder();
+    const order = await req.user.createOrder({ include: ['products'] });
 
-    await order.addProduct(products.map(product => {
-        product.orderItem = { quantity: product.cartItem.quantity };
+    await order.addProducts(await products.map(async product => {
+        product.orderItem = { quantity: await product.cartItem.quantity };
         return product;
     }));
+
+    await cart.setProducts(null);
 
     res.redirect('/orders');
 };
 
-exports.getOrders = (req, res, next) => {
+exports.getOrders = async (req, res, next) => {
+    const orders = await req.user.getOrders({ include: ['products'] });
+
     res.render('shop/orders', {
         path: '/orders',
-        pageTitle: 'Your Orders'
-    });
-};
-
-exports.getCheckout = (req, res, next) => {
-    res.render('shop/checkout', {
-        path: '/checkout',
-        pageTitle: 'Checkout'
+        pageTitle: 'Your Orders',
+        orders
     });
 };
