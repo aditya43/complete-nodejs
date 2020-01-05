@@ -75,12 +75,12 @@ exports.postCart = async (req, res, next) => {
     res.redirect('/cart');
 };
 
-exports.postCartDeleteProduct = (req, res, next) => {
-    const prodId = req.body.productId;
-    Product.findById(prodId, product => {
-        Cart.deleteProduct(prodId, product.price);
-        res.redirect('/cart');
-    });
+exports.postCartDeleteProduct = async (req, res, next) => {
+    const cart = await req.user.getCart();
+    const products = await cart.getProducts({ where: { id: req.body.productId } });
+
+    await products[0].cartItem.destroy(); ;
+    res.redirect('/cart');
 };
 
 exports.getOrders = (req, res, next) => {
