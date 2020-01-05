@@ -1,3 +1,4 @@
+const mongo = require('../util/database');
 
 class Product {
     constructor (title, price, description, imageUrl) {
@@ -7,8 +8,13 @@ class Product {
         this.imageUrl = imageUrl;
     }
 
-    save () {
-        const db = getDbInstance();
+    async save () {
+        try {
+            const db = await mongo.getInstance();
+            await db.collection('products').insertOne(this);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
