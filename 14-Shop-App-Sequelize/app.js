@@ -40,10 +40,7 @@ Product.belongsTo(User, {
 });
 User.hasMany(Product);
 User.hasOne(Cart);
-Cart.belongsTo(User, {
-    constraints: true,
-    onDelete: 'CASCADE'
-});
+Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
 
@@ -54,13 +51,13 @@ sequelize
         let user = await User.findOne({ id: 1 });
 
         if (!user) {
-            user = User.create({
+            user = await User.create({
                 name: 'Aditya Hajare',
                 email: 'aditya@hajare.com'
             });
         }
 
-        user.createCart();
+        await user.createCart();
         app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
     })
     .catch(e => {
