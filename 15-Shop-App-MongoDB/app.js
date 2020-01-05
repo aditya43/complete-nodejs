@@ -2,7 +2,6 @@ require('./util/helpers');
 require('./util/loadEnv');
 
 const path = require('path');
-// const mongoConnect = require('./util/database');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -24,5 +23,4 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-// mongoConnect();
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
