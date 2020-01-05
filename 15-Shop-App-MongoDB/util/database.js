@@ -1,13 +1,17 @@
-const Sequelize = require('sequelize');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
 
-const sequelize = new Sequelize(
-    process.env.MYSQL_DATABASE,
-    process.env.MYSQL_USER,
-    process.env.MYSQL_PASSWORD, {
-        host: process.env.MYSQL_HOST,
-        port: process.env.MYSQL_PORT,
-        dialect: 'mysql'
+const mongoConnect = async () => {
+    try {
+        await MongoClient.connect(process.env.MONGO_CONNECTION_STRING, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+            // useCreateIndex: true,
+            // useFindAndModify: false
+        });
+    } catch (error) {
+        console.log(error);
     }
-);
+};
 
-module.exports = sequelize;
+module.exports = mongoConnect;
