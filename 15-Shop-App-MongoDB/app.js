@@ -5,6 +5,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const User = require('./models/user');
+
 const errorController = require('./controllers/error');
 
 const app = express();
@@ -18,9 +20,16 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(async (req, res, next) => {
+    const user = await User.findById('5e1475339869261e185c0cec');
+    req.user = user;
+    next();
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.get404);
+
 
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
