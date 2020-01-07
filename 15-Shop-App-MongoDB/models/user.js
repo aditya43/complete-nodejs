@@ -1,3 +1,19 @@
+const mongo = require('../util/database');
+const { ObjectId } = require('mongodb');
+
+class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    async save() {
+        const db = await mongo.getInstance();
+        await db.collection('users').insertOne(this);
+    }
+}
+
+module.exports = User;
 // const Sequelize = require('sequelize');
 
 // const sequelize = require('../util/database');
