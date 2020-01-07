@@ -17,10 +17,10 @@ class User {
         }
     }
 
-    async findById(userId) {
+    static async findById(userId) {
         try {
             const db = await mongo.getInstance();
-            const user = db.collection('users').find({ _id: ObjectId(userId) }).next();
+            const user = await db.collection('users').findOne({ _id: ObjectId(userId) });
             return user;
         } catch (e) {
             console.log(e);
