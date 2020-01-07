@@ -45,20 +45,34 @@ exports.getEditProduct = async (req, res, next) => {
     });
 };
 
-// exports.postEditProduct = (req, res, next) => {
-//     Product.update({
-//         title: req.body.title,
-//         price: req.body.price,
-//         imageUrl: req.body.imageUrl,
-//         description: req.body.description
-//     }, {
-//         where: { id: req.body.productId },
-//         limit: 1
-//     })
-//         .then(() => {
-//             res.redirect('/admin/products');
-//         }).catch(e => console.log(e));
-// };
+exports.postEditProduct = async (req, res, next) => {
+    try {
+        const product = await new Product(
+            req.body.title,
+            req.body.price,
+            req.body.description,
+            req.body.imageUrl,
+            req.body.productId
+        );
+
+        await product.save();
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(e);
+    }
+    // Product.update({
+    //     title: req.body.title,
+    //     price: req.body.price,
+    //     imageUrl: req.body.imageUrl,
+    //     description: req.body.description
+    // }, {
+    //     where: { id: req.body.productId },
+    //     limit: 1
+    // })
+    //     .then(() => {
+    //         res.redirect('/admin/products');
+    //     }).catch(e => console.log(e));
+};
 
 exports.getProducts = async (req, res, next) => {
     const products = await Product.fetchAll();

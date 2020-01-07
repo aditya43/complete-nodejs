@@ -2,17 +2,24 @@ const mongo = require('../util/database');
 const { ObjectId } = require('mongodb');
 
 class Product {
-    constructor (title, price, description, imageUrl) {
+    constructor (title, price, description, imageUrl, id) {
         this.title = title;
         this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
+        this._id = ObjectId(id);
     }
 
     async save () {
         try {
             const db = await mongo.getInstance();
-            await db.collection('products').insertOne(this);
+            if (this._id) {
+                // update
+                await db.collection('products').updateOne({ _id: this._id }, { $set: this });
+            } else {
+                // Insert
+                await db.collection('products').insertOne(this);
+            }
         } catch (error) {
             console.log(error);
             return false;
