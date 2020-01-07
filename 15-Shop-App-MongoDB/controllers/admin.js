@@ -10,13 +10,14 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
     try {
-        // 'createProduct' is a magic association method.
-        await req.user.createProduct({
-            title: req.body.title,
-            description: req.body.description,
-            price: req.body.price,
-            imageUrl: req.body.imageUrl
-        });
+        const product = await new Product(
+            req.body.title,
+            req.body.price,
+            req.body.description,
+            req.body.imageUrl
+        );
+
+        await product.save();
 
         res.redirect('/admin/products');
     } catch (e) {
