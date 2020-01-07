@@ -60,18 +60,6 @@ exports.postEditProduct = async (req, res, next) => {
     } catch (e) {
         console.log(e);
     }
-    // Product.update({
-    //     title: req.body.title,
-    //     price: req.body.price,
-    //     imageUrl: req.body.imageUrl,
-    //     description: req.body.description
-    // }, {
-    //     where: { id: req.body.productId },
-    //     limit: 1
-    // })
-    //     .then(() => {
-    //         res.redirect('/admin/products');
-    //     }).catch(e => console.log(e));
 };
 
 exports.getProducts = async (req, res, next) => {
@@ -88,16 +76,11 @@ exports.getProducts = async (req, res, next) => {
     });
 };
 
-// exports.postDeleteProduct = async (req, res, next) => {
-//     try {
-//         const products = await req.user.getProducts({ id: req.body.productId });
-
-//         if (products) {
-//             await products[0].destroy();
-//         }
-
-//         res.redirect('/admin/products');
-//     } catch (e) {
-//         console.log(e);
-//     }
-// };
+exports.postDeleteProduct = async (req, res, next) => {
+    try {
+        await Product.deleteById(req.body.productId);
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(e);
+    }
+};

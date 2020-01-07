@@ -47,6 +47,16 @@ class Product {
             return false;
         }
     }
+
+    static async deleteById(prodId) {
+        try {
+            const db = await mongo.getInstance();
+            await db.collection('products').deleteOne({ _id: ObjectId(prodId) });
+        } catch (error) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = Product;
