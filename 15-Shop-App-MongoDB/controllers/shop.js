@@ -9,21 +9,27 @@ exports.getProducts = async (req, res, next) => {
     });
 };
 
-exports.getProduct = (req, res, next) => {
-    const prodId = req.params.productId;
-    Product.findOne({ id: prodId })
-        .then(product => {
-            res.render('shop/product-detail', {
-                product: product,
-                pageTitle: product.title,
-                path: '/products'
-            });
-        })
-        .catch(e => console.log(e));
+exports.getProduct = async (req, res, next) => {
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+        return res.redirect('/404');
+    }
+
+    res.render('shop/product-detail', {
+        product: product,
+        pageTitle: product.title,
+        path: '/products'
+    });
 };
 
 exports.getIndex = async (req, res, next) => {
     const products = await Product.fetchAll();
+
+    if (!products) {
+        return res.redirect('/404');
+    }
+
     res.render('shop/index', {
         prods: products,
         pageTitle: 'Shop',
