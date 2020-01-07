@@ -22,14 +22,13 @@ exports.getProduct = (req, res, next) => {
         .catch(e => console.log(e));
 };
 
-exports.getIndex = (req, res, next) => {
-    Product.findAll().then(products => {
-        res.render('shop/index', {
-            prods: products,
-            pageTitle: 'Shop',
-            path: '/'
-        });
-    }).catch(e => console.log(e));
+exports.getIndex = async (req, res, next) => {
+    const products = await Product.fetchAll();
+    res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/'
+    });
 };
 
 exports.getCart = async (req, res, next) => {
