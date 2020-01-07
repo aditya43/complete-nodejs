@@ -8,8 +8,24 @@ class User {
     }
 
     async save() {
-        const db = await mongo.getInstance();
-        await db.collection('users').insertOne(this);
+        try {
+            const db = await mongo.getInstance();
+            await db.collection('users').insertOne(this);
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async findById(userId) {
+        try {
+            const db = await mongo.getInstance();
+            const user = db.collection('users').find({ _id: ObjectId(userId) }).next();
+            return user;
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
     }
 }
 
