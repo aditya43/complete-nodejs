@@ -43,24 +43,6 @@ exports.getEditProduct = async (req, res, next) => {
         editing: editMode,
         product: product
     });
-
-
-    // const products = await req.user.getProducts({
-    //     where: {
-    //         id: req.params.productId
-    //     }
-    // });
-
-    // if (!products) {
-    //     return res.redirect('/');
-    // }
-
-    // res.render('admin/edit-product', {
-    //     pageTitle: 'Edit Product',
-    //     path: '/admin/edit-product',
-    //     editing: editMode,
-    //     product: products[0]
-    // });
 };
 
 // exports.postEditProduct = (req, res, next) => {
