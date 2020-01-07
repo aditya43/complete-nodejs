@@ -54,7 +54,9 @@ exports.postEditProduct = async (req, res, next) => {
             req.body.price,
             req.body.description,
             req.body.imageUrl,
-            req.body.productId
+            req.body.productId,
+            null,
+            req.user._id
         );
 
         await product.save();
