@@ -16,6 +16,12 @@ class Product {
             console.log(error);
         }
     }
+
+    static async fetchAll() {
+        const db = await mongo.getInstance();
+        const products = await db.collection('products').find().toArray();
+        return products;
+    }
 }
 
 module.exports = Product;

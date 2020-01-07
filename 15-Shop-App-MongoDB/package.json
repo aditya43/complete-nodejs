@@ -4,7 +4,7 @@
     "description": "Complete Node.js Guide",
     "main": "app.js",
     "scripts": {
-        "dev": "NODE_ENV=dev nodemon app.js",
+        "dev": "set NODE_ENV=dev & nodemon app.js",
         "start": "NODE_ENV=prod node app.js"
     },
     "author": "Aditya Hajare",
