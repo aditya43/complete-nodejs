@@ -54,28 +54,30 @@ exports.getCart = async (req, res, next) => {
 };
 
 exports.postCart = async (req, res, next) => {
-    let newQuantity = 1;
-    let product = false;
-    const cart = await req.user.getCart();
+    const product = await Product.findById(req.body.productId);
+    const res = await req.user.addToCart(product);
+    // let newQuantity = 1;
+    // let product = false;
+    // const cart = await req.user.getCart();
 
-    const products = await cart.getProducts({ where: { id: req.body.productId } });
-    if (products.length > 0) {
-        product = products[0];
-        const oldQuantity = products[0].cartItem.quantity;
-        newQuantity = oldQuantity + 1;
-    }
+    // const products = await cart.getProducts({ where: { id: req.body.productId } });
+    // if (products.length > 0) {
+    //     product = products[0];
+    //     const oldQuantity = products[0].cartItem.quantity;
+    //     newQuantity = oldQuantity + 1;
+    // }
 
-    if (!product) {
-        product = await Product.findOne({ where: { id: req.body.productId } });
-    }
+    // if (!product) {
+    //     product = await Product.findOne({ where: { id: req.body.productId } });
+    // }
 
-    await cart.addProduct(product, {
-        through: {
-            quantity: newQuantity
-        }
-    });
+    // await cart.addProduct(product, {
+    //     through: {
+    //         quantity: newQuantity
+    //     }
+    // });
 
-    res.redirect('/cart');
+    // res.redirect('/cart');
 };
 
 exports.postCartDeleteProduct = async (req, res, next) => {
