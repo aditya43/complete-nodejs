@@ -27,7 +27,7 @@ class Product {
         }
     }
 
-    static async fetchAll() {
+    static async fetchAll () {
         try {
             const db = await mongo.getInstance();
             const products = await db.collection('products').find().toArray();
@@ -38,7 +38,7 @@ class Product {
         }
     }
 
-    static async findById(prodId) {
+    static async findById (prodId) {
         try {
             const db = await mongo.getInstance();
             const product = await db.collection('products').find({ _id: ObjectId(prodId) }).next();
@@ -49,7 +49,7 @@ class Product {
         }
     }
 
-    static async deleteById(prodId) {
+    static async deleteById (prodId) {
         try {
             const db = await mongo.getInstance();
             await db.collection('products').deleteOne({ _id: ObjectId(prodId) });
