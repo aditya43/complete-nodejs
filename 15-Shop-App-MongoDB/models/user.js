@@ -2,18 +2,35 @@ const mongo = require('../util/database');
 const { ObjectId } = require('mongodb');
 
 class User {
-    constructor(name, email, cart, id) {
+    constructor (name, email, cart, id) {
         this.name = name;
         this.email = email;
         this.cart = cart; // {items: []}
         this._id = id;
     }
 
-    async addToCart(product) {
+    async addToCart (product) {
         try {
+            let newQantity;
+            let cartProductIndex;
+
             const db = await mongo.getInstance();
-            // const cartProduct = this.cart.items.findIndex(cp => cp._id == product._id);
-            const updatedCart = { items: [{ productId: ObjectId(product._id), quantity: 1 }] };
+            if (this.cart.items.length > 1) {
+                cartProductIndex = this.cart.items.findIndex(cp => cp.productId.toString() == product._id.toString());
+            }
+
+            newQantity = 1;
+            const updatedCartItems = [...this.cart.items];
+
+            if (cartProductIndex >= 0) {
+                newQantity = this.cart.items[cartProductIndex].quantity + 1;
+                updatedCartItems[cartProductIndex].quantity = newQantity;
+            } else {
+                updatedCartItems.push({ productId: ObjectId(product._id), quantity: newQantity });
+            }
+
+            const updatedCart = { items: updatedCartItems };
+
             const res = await db.collection('users').updateOne(
                 { _id: ObjectId(this._id) },
                 { $set: { cart: updatedCart } }
@@ -26,7 +43,7 @@ class User {
         }
     }
 
-    async save() {
+    async save () {
         try {
             const db = await mongo.getInstance();
             await db.collection('users').insertOne(this);
@@ -36,7 +53,7 @@ class User {
         }
     }
 
-    static async findById(userId) {
+    static async findById (userId) {
         try {
             const db = await mongo.getInstance();
             const user = await db.collection('users').findOne({ _id: ObjectId(userId) });
