@@ -59,10 +59,9 @@ exports.postCart = async (req, res, next) => {
 };
 
 exports.postCartDeleteProduct = async (req, res, next) => {
-    const cart = await req.user.getCart();
-    const products = await cart.getProducts({ where: { id: req.body.productId } });
+    await req.user.deleteItemFromCart(req.body.productId);
+    // await cart.getProducts({ where: { id: req.body.productId } });
 
-    await products[0].cartItem.destroy(); ;
     res.redirect('/cart');
 };
 
