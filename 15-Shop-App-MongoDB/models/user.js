@@ -85,12 +85,30 @@ class User {
     async addOrder() {
         try {
             const db = await mongo.getInstance();
-            await db.collection('orders').insertOne(this.cart);
+            const products = await this.getCart();
+            const order = {
+                items: products,
+                user: {
+                    _id: ObjectId(this._id),
+                    name: this.name
+                }
+            };
+            await db.collection('orders').insertOne(order);
             this.cart = { items: [] };
             await db.collection('users').updateOne(
                 { _id: ObjectId(this._id) },
                 { $set: { cart: { items: [] } } }
             );
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async getOrders() {
+        try {
+            const db = await mongo.getInstance();
+            // const orders = db.collection('orders').
         } catch (e) {
             console.log(e);
             return false;
