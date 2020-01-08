@@ -5,7 +5,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const User = require('./models/user');
+// const User = require('./models/user');
 
 const errorController = require('./controllers/error');
 

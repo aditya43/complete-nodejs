@@ -43,7 +43,7 @@ class User {
         }
     }
 
-    async getCart() {
+    async getCart () {
         try {
             const db = await mongo.getInstance();
             const productIds = this.cart.items.map(item => {
@@ -55,7 +55,7 @@ class User {
                 return {
                     ...product,
                     quantity: this.cart.items.find(item => {
-                        return item.productId.toString() === product._id.toString()
+                        return item.productId.toString() === product._id.toString();
                     }).quantity
                 };
             });
@@ -65,10 +65,10 @@ class User {
         }
     }
 
-    async deleteItemFromCart(productId) {
+    async deleteItemFromCart (productId) {
         try {
             const updatedCartItems = this.cart.items.filter(item => {
-                return item.productId.toString() !== productId.toString()
+                return item.productId.toString() !== productId.toString();
             });
 
             const db = await mongo.getInstance();
@@ -82,7 +82,7 @@ class User {
         }
     }
 
-    async addOrder() {
+    async addOrder () {
         try {
             const db = await mongo.getInstance();
             const products = await this.getCart();
@@ -105,7 +105,7 @@ class User {
         }
     }
 
-    async getOrders() {
+    async getOrders () {
         try {
             const db = await mongo.getInstance();
             const orders = await db.collection('orders').find({ 'user._id': ObjectId(this._id) }).toArray();
