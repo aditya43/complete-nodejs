@@ -66,15 +66,24 @@ class User {
     }
 
     async deleteItemFromCart(productId) {
-        const updatedCartItems = this.cart.items.filter(item => {
-            return item.productId.toString() !== productId.toString()
-        });
+        try {
+            const updatedCartItems = this.cart.items.filter(item => {
+                return item.productId.toString() !== productId.toString()
+            });
 
-        const db = await mongo.getInstance();
-        await db.collection('users').updateOne(
-            { _id: ObjectId(this._id) },
-            { $set: { cart: { items: updatedCartItems } } }
-        );
+            const db = await mongo.getInstance();
+            await db.collection('users').updateOne(
+                { _id: ObjectId(this._id) },
+                { $set: { cart: { items: updatedCartItems } } }
+            );
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async addOrder() {
+        //
     }
 
     async save () {
