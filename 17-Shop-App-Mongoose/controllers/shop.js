@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.getProducts = async (req, res, next) => {
-    const products = await Product.fetchAll();
+    const products = await Product.find();
     res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
@@ -24,7 +24,7 @@ exports.getProduct = async (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
-    const products = await Product.fetchAll();
+    const products = await Product.find();
 
     if (!products) {
         return res.redirect('/404');
