@@ -43,6 +43,28 @@ class User {
         }
     }
 
+    async getCart() {
+        try {
+            const db = await mongo.getInstance();
+            const productIds = this.cart.items.map(item => {
+                return item.productId;
+            });
+            const productsArr = await db.collection('products').find({ _id: { $in: productIds } }).toArray();
+
+            return productsArr.map(product => {
+                return {
+                    ...product,
+                    quantity: this.cart.items.find(item => {
+                        return item.productId.toString() === product._id.toString()
+                    }).quantity
+                };
+            });
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
     async save () {
         try {
             const db = await mongo.getInstance();

@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(async (req, res, next) => {
-    const user = await User.findById('5e15453f9cdbef08040adea2');
+    const user = await User.findById('5e1475339869261e185c0cec');
     req.user = await new User(user.name, user.email, user.cart, user._id);
     next();
 });

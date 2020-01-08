@@ -38,13 +38,11 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-    const cart = await req.user.getCart();
+    const products = await req.user.getCart();
 
-    if (!cart) {
+    if (!products) {
         res.redirect('/');
     }
-
-    const products = await cart.getProducts();
 
     res.render('shop/cart', {
         path: '/cart',
