@@ -10,14 +10,12 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
     try {
-        const product = await new Product(
-            req.body.title,
-            req.body.price,
-            req.body.description,
-            req.body.imageUrl,
-            null,
-            req.user._id
-        );
+        const product = await new Product({
+            title: req.body.title,
+            price: req.body.price,
+            description: req.body.description,
+            imageUrl: req.body.imageUrl
+        });
 
         await product.save();
 
