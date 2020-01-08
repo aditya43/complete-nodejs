@@ -108,7 +108,9 @@ class User {
     async getOrders() {
         try {
             const db = await mongo.getInstance();
-            // const orders = db.collection('orders').
+            const orders = await db.collection('orders').find({ 'user._id': ObjectId(this._id) }).toArray();
+
+            return orders;
         } catch (e) {
             console.log(e);
             return false;
