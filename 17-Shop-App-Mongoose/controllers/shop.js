@@ -73,10 +73,10 @@ exports.postOrder = async (req, res, next) => {
     if (!userCart.cart.items) {
         res.redirect('/');
     }
-
+    console.log(userCart.cart.items)
     const products = userCart.cart.items.map(item => {
         return {
-            product: item.productId,
+            product: { ...item.productId._doc },
             quantity: item.quantity
         }
     });
