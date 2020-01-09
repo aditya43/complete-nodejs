@@ -47,15 +47,13 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.postEditProduct = async (req, res, next) => {
     try {
-        const product = await new Product(
-            req.body.title,
-            req.body.price,
-            req.body.description,
-            req.body.imageUrl,
-            req.body.productId,
-            null,
-            req.user._id
-        );
+        const product = await Product.findById(req.body.productId);
+
+        product.title = req.body.title;
+        product.price = req.body.price;
+        product.description = req.body.description;
+        product.imageUrl = req.body.imageUrl;
+        product.productId = req.body.productId;
 
         await product.save();
         res.redirect('/admin/products');
