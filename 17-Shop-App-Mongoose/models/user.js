@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
     }
 });
 
-userSchema.methods.addToCart = async function(product) {
+userSchema.methods.addToCart = async function (product) {
     try {
         let newQantity;
         let cartProductIndex;
@@ -58,7 +58,7 @@ userSchema.methods.addToCart = async function(product) {
         console.log('ERROR: ', e);
         return false;
     }
-}
+};
 
 module.exports = mongoose.model('User', userSchema);
 

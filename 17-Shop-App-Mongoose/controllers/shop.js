@@ -38,11 +38,13 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-    const products = await req.user.getCart();
+    const userCart = await req.user.populate('cart.items.productId').execPopulate();
 
-    if (!products) {
+    if (!userCart.cart.items) {
         res.redirect('/');
     }
+
+    const products = userCart.cart.items;
 
     res.render('shop/cart', {
         path: '/cart',
