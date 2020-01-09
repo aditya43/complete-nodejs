@@ -64,7 +64,15 @@ exports.postEditProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-    const products = await Product.find();
+    // Method 1
+    const products = await Product.find().populate('userId');
+
+    // Method 2 - To retrieve specific fields only (SELECT).
+    // const products = await Product.find()
+    //     .select('title price -_id')
+    //     .populate('userId', 'name');
+
+    // res.send(products);
 
     if (!products) {
         res.redirect('/');
