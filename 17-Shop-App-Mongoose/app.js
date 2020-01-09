@@ -22,13 +22,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(async (req, res, next) => {
     // Create user
-    const user = await new User({
-        name: 'Aditya Hajare',
-        email: 'aditya@hajare.com',
-        cart: {
-            items: []
-        }
-    }).save();
+    const existingUser = await User.findOne();
+
+    if (!existingUser) {
+        await new User({
+            name: 'Aditya Hajare',
+            email: 'aditya@hajare.com',
+            cart: {
+                items: []
+            }
+        }).save();
+    }
+    next();
+});
+
+app.use(async (req, res, next) => {
+    const user = await User.findById('5e1690e7a365e310a08f0f11');
+    req.user = user;
     next();
 });
 
