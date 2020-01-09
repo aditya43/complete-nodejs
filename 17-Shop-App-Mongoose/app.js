@@ -5,7 +5,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// const User = require('./models/user');
+const User = require('./models/user');
 
 const errorController = require('./controllers/error');
 
@@ -20,11 +20,17 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(async (req, res, next) => {
-//     const user = await User.findById('5e1475339869261e185c0cec');
-//     req.user = await new User(user.name, user.email, user.cart, user._id);
-//     next();
-// });
+app.use(async (req, res, next) => {
+    // Create user
+    const user = await new User({
+        name: 'Aditya Hajare',
+        email: 'aditya@hajare.com',
+        cart: {
+            items: []
+        }
+    }).save();
+    next();
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
