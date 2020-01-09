@@ -65,7 +65,7 @@ exports.postEditProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-    const products = await Product.fetchAll();
+    const products = await Product.find();
 
     if (!products) {
         res.redirect('/');
