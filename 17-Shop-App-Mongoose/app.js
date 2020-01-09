@@ -37,7 +37,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-    const user = await User.findById('5e1690e7a365e310a08f0f11');
+    const user = await User.findOne({email: 'aditya@hajare.com'});
     req.user = user;
     next();
 });
