@@ -22,6 +22,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: false,
         trim: true
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
