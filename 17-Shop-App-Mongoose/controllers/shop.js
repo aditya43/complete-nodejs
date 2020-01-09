@@ -73,7 +73,7 @@ exports.postOrder = async (req, res, next) => {
     if (!userCart.cart.items) {
         res.redirect('/');
     }
-    console.log(userCart.cart.items)
+
     const products = userCart.cart.items.map(item => {
         return {
             product: { ...item.productId._doc },
@@ -90,6 +90,7 @@ exports.postOrder = async (req, res, next) => {
     })
 
     await order.save();
+    await req.user.clearCart();
 
     res.redirect('/orders');
 };
