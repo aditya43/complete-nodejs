@@ -25,6 +25,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Deploying Weather App On Heroku](#deploying-weather-app-on-heroku)
 - [JEST - Things To Know](#jest---things-to-know)
 - [WebSockets Protocol](#websockets-protocol)
+- [Mongoose - Things To Know](#mongoose---things-to-know)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -131,3 +132,34 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - Event emitters in `Rooms`:
     * `io.to(room).emit('EVENT_NAME', { dataObject })`: Emits an events to everybody in a specific room.
     * `socket.broadcast.to(room).emit('EVENT_NAME', { dataObject })`: Emits an events to everybody in a specific room except self/specific client.
+
+### Mongoose - Things To Know
+- While defining methods on `Schema`, avoid `Arrow Functions`. Instead opt out for `function()`.
+    * **Reason: ** `this` is not available in `Arrow Functions`.
+    * Refer to following examples:
+    ```
+    17-Shop-App-Mongoose/models/user.js
+    11-Tasks-Manager-App/src/models/user.js
+    11-Tasks-Manager-App/src/models/task.js
+    ```
+    * For e.g.
+    ```
+    const mongoose = require('mongoose');
+
+    const userSchema = mongoose.Schema({
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        }
+    });
+
+    userSchema.methods.helloWorld = function() { // Not using arrow function here!
+        // Code
+    };
+
+    module.exports = mongoose.model('User', userSchema);
+    ```
