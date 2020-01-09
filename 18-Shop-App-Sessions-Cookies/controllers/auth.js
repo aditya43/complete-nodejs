@@ -7,6 +7,7 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
+    res.setHeader('Set-Cookie', 'isAuthenticated=true');
     req.isAuthenticated = true;
     res.send(req.body);
 }
