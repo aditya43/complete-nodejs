@@ -26,7 +26,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [JEST - Things To Know](#jest---things-to-know)
 - [WebSockets Protocol](#websockets-protocol)
 - [Mongoose - Things To Know](#mongoose---things-to-know)
-- [Setting Cookies](#setting-cookies)
+- [Cookies](#cookies)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -165,11 +165,18 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     module.exports = mongoose.model('User', userSchema);
     ```
 
-### Setting Cookies
-- Simplest way to set a cookie:
+### Cookies
+- To set a cookie:
 ```
 exports.postLogin = async (req, res, next) => {
     res.setHeader('Set-Cookie', 'isAuthenticated=true');
     res.send(req.body);
 }
+```
+- To fetch value of `isAuthenticated` cookie:
+```
+const value = req.get('Cookie')
+    .split(';')[1]
+    .trim()
+    .split('=')[1];
 ```
