@@ -52,8 +52,9 @@ app.use(async (req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-    const user = await User.findOne({email: 'aditya@hajare.com'});
-    req.user = user;
+    if (req.session.user) {
+        req.user = await User.findById(req.session.user._id);
+    }
     next();
 });
 

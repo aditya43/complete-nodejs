@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 exports.getLogin = (req, res, next) => {
     const isLoggedIn = req.session.isAuthenticated;
 
@@ -10,6 +12,8 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
     req.session.isAuthenticated = true;
+    req.session.user = await User.findOne({ email: 'aditya@hajare.com' });
+    await req.session.save();
     res.send(req.body);
 }
 
