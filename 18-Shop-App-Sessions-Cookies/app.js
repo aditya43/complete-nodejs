@@ -5,6 +5,13 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const connectMongoDBSession = require('connect-mongodb-session');
+
+const MongoDBStore = connectMongoDBSession(session);
+const store = new MongoDBStore({
+    uri: process.env.MONGO_CONNECTION_STRING,
+    collection: 'sessions'
+});
 
 const User = require('./models/user');
 
@@ -24,7 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'some secret string',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store
 }));
 
 app.use(async (req, res, next) => {

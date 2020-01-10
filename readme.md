@@ -28,6 +28,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Mongoose - Things To Know](#mongoose---things-to-know)
 - [Cookies](#cookies)
 - [Sessions](#sessions)
+- [Storing Sessions In MongoDB](#storing-sessions-in-mongodb)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -194,8 +195,6 @@ npm i express-session --save
 
     const app = express();
 
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(express.static(path.join(__dirname, 'public')));
     app.use(session({
         secret: 'some secret string',
         resave: false,
@@ -211,3 +210,24 @@ npm i express-session --save
     ```
     const loggedIn = req.session.isLoggedIn;
     ```
+
+### Storing Sessions In MongoDB
+- Install following package:
+```
+npm i connect-mongodb-session --save
+```
+- Setup `MongoDB Store`:
+```
+const session = require('session');
+const connectMongoDBSession = require('connect-mongodb-session');
+
+const MongoDBStore = connectMongoDBSession(session);
+const store = new MongoDBStore();
+
+app.use(session({
+    secret: 'some secret string',
+    resave: false,
+    saveUninitialized: false,
+    store
+}));
+```
