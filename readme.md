@@ -168,6 +168,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
     ```
 
 ### Cookies
+- Cookies which are not having `expiry` and `max-age` set, will get destroyed when browser is closed.
 - To set a cookie:
 ```
 exports.postLogin = async (req, res, next) => {
