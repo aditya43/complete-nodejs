@@ -27,6 +27,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [WebSockets Protocol](#websockets-protocol)
 - [Mongoose - Things To Know](#mongoose---things-to-know)
 - [Cookies](#cookies)
+- [Sessions](#sessions)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -180,3 +181,33 @@ const value = req.get('Cookie')
     .trim()
     .split('=')[1];
 ```
+
+### Sessions
+- To use sessions in `Express`, install following plugin:
+```
+npm i express-session --save
+```
+- Steps to initialize and use session:
+    * Initilize session in middleware in `app.js`:
+    ```
+    const session = require('session');
+
+    const app = express();
+
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(session({
+        secret: 'some secret string',
+        resave: false,
+        saveUninitialized: false
+    }));
+    ```
+    * Session will be available on `req.session`.
+    * To set a value in session:
+    ```
+    req.session.isLoggedIn = true;
+    ```
+    * To fetch a value from session:
+    ```
+    const loggedIn = req.session.isLoggedIn;
+    ```

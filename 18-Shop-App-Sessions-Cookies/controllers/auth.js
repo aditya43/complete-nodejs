@@ -1,5 +1,5 @@
 exports.getLogin = (req, res, next) => {
-    const isLoggedIn = req.get('Cookie').split('=')[1]
+    const isLoggedIn = req.session.isAuthenticated;
 
     res.render('auth/login', {
         pageTitle: 'Login',
@@ -9,7 +9,6 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
-    res.setHeader('Set-Cookie', 'isAuthenticated=true; HttpOnly');
-    req.isAuthenticated = true;
+    req.session.isAuthenticated = true;
     res.send(req.body);
 }
