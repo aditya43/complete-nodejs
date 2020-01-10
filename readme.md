@@ -169,7 +169,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - To set a cookie:
 ```
 exports.postLogin = async (req, res, next) => {
-    res.setHeader('Set-Cookie', 'isAuthenticated=true');
+    res.setHeader('Set-Cookie', 'isAuthenticated=true; HttpOnly');
     res.send(req.body);
 }
 ```
