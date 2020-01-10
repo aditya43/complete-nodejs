@@ -4,6 +4,7 @@ require('./util/loadEnv');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const User = require('./models/user');
 
@@ -20,6 +21,11 @@ const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'some secret string',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(async (req, res, next) => {
     // Create user
