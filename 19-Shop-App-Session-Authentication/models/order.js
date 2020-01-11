@@ -14,9 +14,9 @@ const orderSchema = mongoose.Schema({
         }
     }],
     user: {
-        name: {
+        email: {
             type: String,
-            required: false,
+            required: true,
             trim: true
         },
         userId: {
