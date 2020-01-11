@@ -36,22 +36,6 @@ app.use(session({
 }));
 
 app.use(async (req, res, next) => {
-    // Create user
-    const existingUser = await User.findOne();
-
-    if (!existingUser) {
-        await new User({
-            name: 'Aditya Hajare',
-            email: 'aditya@hajare.com',
-            cart: {
-                items: []
-            }
-        }).save();
-    }
-    next();
-});
-
-app.use(async (req, res, next) => {
     if (req.session.user) {
         req.user = await User.findById(req.session.user._id);
     }
