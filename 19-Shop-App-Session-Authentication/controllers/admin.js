@@ -43,7 +43,6 @@ exports.getEditProduct = async (req, res, next) => {
         path: '/admin/edit-product',
         editing: editMode,
         product: product,
-        isAuthenticated: req.session.isAuthenticated
     });
 };
 
@@ -83,7 +82,6 @@ exports.getProducts = async (req, res, next) => {
         prods: products,
         pageTitle: 'Admin Products',
         path: '/admin/products',
-        isAuthenticated: req.session.isAuthenticated
     });
 };
 

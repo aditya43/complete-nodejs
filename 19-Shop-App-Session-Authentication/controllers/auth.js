@@ -5,7 +5,7 @@ exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         pageTitle: 'Login',
         path: '/login',
-        isAuthenticated: false
+        errorMessage: req.flash('error')
     });
 };
 
@@ -14,12 +14,14 @@ exports.postLogin = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
+        req.flash('error', 'Invalid email or password');
         return res.redirect('/login');
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
+        req.flash('error', 'Invalid email or password');
         return res.redirect('/login');
     }
 
