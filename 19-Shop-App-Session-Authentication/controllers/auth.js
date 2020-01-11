@@ -41,7 +41,6 @@ exports.getSignup = async (req, res, next) => {
     res.render('auth/signup', {
         pageTitle: 'Signup',
         path: '/signup',
-        isAuthenticated: false
     });
 }
 
