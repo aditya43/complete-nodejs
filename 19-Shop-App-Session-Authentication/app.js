@@ -6,8 +6,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const connectMongoDBSession = require('connect-mongodb-session');
+const csrf = require('csurf');
 
 const MongoDBStore = connectMongoDBSession(session);
+const csrfProtection = csrf();
 const store = new MongoDBStore({
     uri: process.env.MONGO_CONNECTION_STRING,
     collection: 'sessions'
@@ -34,6 +36,7 @@ app.use(session({
     saveUninitialized: false,
     store
 }));
+app.use(csrfProtection);
 
 app.use(async (req, res, next) => {
     if (req.session.user) {
@@ -41,6 +44,12 @@ app.use(async (req, res, next) => {
     }
     next();
 });
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isAuthenticated;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+})
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
