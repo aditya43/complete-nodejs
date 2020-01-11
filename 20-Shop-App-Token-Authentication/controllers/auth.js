@@ -6,6 +6,7 @@ const { resetPasswordMail } = require('../emails/account');
 
 exports.getLogin = (req, res, next) => {
     let message = req.flash('error');
+    let successMessage = req.flash('success');
 
     if (message.length > 0) {
         message = message[0];
@@ -13,10 +14,17 @@ exports.getLogin = (req, res, next) => {
         message = null;
     }
 
+    if (successMessage.length > 0) {
+        successMessage = successMessage[0];
+    } else {
+        successMessage = null;
+    }
+
     res.render('auth/login', {
         pageTitle: 'Login',
         path: '/login',
-        errorMessage: message
+        errorMessage: message,
+        successMessage
     });
 };
 
@@ -103,7 +111,7 @@ exports.getResetPassword = async (req, res, next) => {
         pageTitle: 'Reset Password',
         path: '/reset-password',
         errorMessage: errMessage,
-        successMessage: successMessage
+        successMessage
     });
 };
 
@@ -149,6 +157,31 @@ exports.getNewPassword = async (req, res, next) => {
     res.render('auth/new-password', {
         pageTitle: 'Set New Password',
         path: '/new-password',
-        userId: user._id.toString()
+        userId: user._id.toString(),
+        token: req.params.token
     });
+};
+
+exports.postNewPassword = async (req, res, next) => {
+    const user = await User.findOne({
+        resetToken: req.body.token,
+        resetTokenExpiration: {
+            $gt: Date.now()
+        },
+        _id: req.body.userId
+    });
+
+    if (!user) {
+        req.flash('error', 'Account doesn\'t exist or token expired.');
+        return res.redirect('/login');
+    }
+
+    user.password = req.body.password;
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
+
+    await user.save();
+
+    req.flash('success', 'Password updated successfully.');
+    return res.redirect('/login');
 };
