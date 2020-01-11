@@ -22,8 +22,8 @@ const accountCancellationEmail = (email, name) => {
         subject: `Account Terminated`,
         text: `Hello ${name},
         Your account on Task Manager App has been terminated.`
-    })
-}
+    });
+};
 
 module.exports = {
     welcomeEmail,

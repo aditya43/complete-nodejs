@@ -15,6 +15,15 @@ const userSchema = mongoose.Schema({
         required: true,
         trim: true
     },
+    resetToken: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    resetTokenExpiration: {
+        type: Date,
+        required: false
+    },
     cart: {
         items: [{
             productId: {
@@ -77,7 +86,7 @@ userSchema.methods.removeFromCart = async function (productId) {
         console.log(e);
         return false;
     }
-}
+};
 
 userSchema.methods.clearCart = async function () {
     this.cart = { items: [] };

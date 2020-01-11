@@ -115,7 +115,7 @@ exports.setAvatar = async (req, res, next) => {
     }
 
     const buffer = await sharp(req.file.buffer)
-        .resize({width: 250, height: 250})
+        .resize({ width: 250, height: 250 })
         .png()
         .toBuffer();
 
@@ -141,6 +141,7 @@ exports.getAvatar = async (req, res, next) => {
         res.set('Content-Type', 'image/png');
         res.send(user.avatar);
     } catch (error) {
-        res.status(404).send(error)
+        res.status(404).send(error);
     }
 }
+;
