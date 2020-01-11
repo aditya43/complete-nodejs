@@ -132,3 +132,23 @@ exports.postResetPassword = async (req, res, next) => {
         res.redirect('/reset-password');
     }
 };
+
+exports.getNewPassword = async (req, res, next) => {
+    const user = await User.findOne({
+        resetToken: req.params.token,
+        resetTokenExpiration: {
+            $gt: Date.now()
+        }
+    });
+
+    if (!user) {
+        req.flash('error', 'Account doesn\'t exist or token expired.');
+        return res.redirect('/login');
+    }
+
+    res.render('auth/new-password', {
+        pageTitle: 'Set New Password',
+        path: '/new-password',
+        userId: user._id.toString()
+    });
+};
