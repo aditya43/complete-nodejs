@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.getLogin = (req, res, next) => {
@@ -9,11 +10,24 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
+    const password = req.body.password;
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return res.redirect('/login');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+        return res.redirect('/login');
+    }
+
+    req.session.user = user;
     req.session.isAuthenticated = true;
-    req.session.user = await User.findOne({ email: 'aditya@hajare.com' });
+
     await req.session.save();
-    // res.send(req.body);
-     res.redirect('/');
+    res.redirect('/');
 }
 
 exports.postLogout = async (req, res, next) => {
