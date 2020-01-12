@@ -16,10 +16,20 @@ router.post('/signup', [
             if (value === 'aditya@hajare.com') {
                 throw new Error('This email-address is forbidden.');
             }
+
             return true;
         }),
+
     body('password', 'Password must be alphanumeric and at least 3 charachers long.').isLength({ min: 3, max: 20 })
-        .isAlphanumeric()
+        .isAlphanumeric(),
+
+    body('confirmPassword').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Confirm password must match the entered password.');
+        }
+
+        return true;
+    })
 ], authController.postSignup);
 
 router.get('/reset-password', authController.getResetPassword);
