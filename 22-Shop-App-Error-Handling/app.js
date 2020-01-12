@@ -40,10 +40,18 @@ app.use(csrf());
 app.use(flash());
 
 app.use(async (req, res, next) => {
-    if (req.session.user) {
-        req.user = await User.findById(req.session.user._id);
+    try {
+        if (req.session.user) {
+            const user = await User.findById(req.session.user._id);
+
+            if (user) {
+                req.user = user;
+            }
+        }
+        next();
+    } catch (e) {
+        throw new Error(e);
     }
-    next();
 });
 
 app.use((req, res, next) => {
@@ -56,6 +64,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
+app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
