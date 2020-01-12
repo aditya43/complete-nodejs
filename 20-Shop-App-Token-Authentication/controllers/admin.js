@@ -91,7 +91,10 @@ exports.getProducts = async (req, res, next) => {
 
 exports.postDeleteProduct = async (req, res, next) => {
     try {
-        await Product.findByIdAndDelete(req.body.productId);
+        await Product.deleteOne({
+            _id: req.body.productId,
+            userId: req.user._id
+        });
         res.redirect('/admin/products');
     } catch (e) {
         console.log(e);
