@@ -17,6 +17,17 @@ const store = new MongoDBStore({
     uri: process.env.MONGO_CONNECTION_STRING,
     collection: 'sessions'
 });
+const multerFileFilter = (req, file, cb) => {
+    if (
+        file.mimetype == 'image/jpg' ||
+        file.mimetype == 'image/jpeg' ||
+        file.mimetype == 'image/png'
+    ) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
 
 const User = require('./models/user');
 
@@ -34,7 +45,8 @@ const authRoutes = require('./routes/auth');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({
     dest: 'images',
-    limits: { fileSize: 1000000 }
+    limits: { fileSize: 1000000 },
+    fileFilter: multerFileFilter
 }).single('image'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
