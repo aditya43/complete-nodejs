@@ -50,6 +50,10 @@ exports.postEditProduct = async (req, res, next) => {
     try {
         const product = await Product.findById(req.body.productId);
 
+        if (product.userId != req.user._id) {
+            return res.redirect('/');
+        }
+
         product.title = req.body.title;
         product.price = req.body.price;
         product.description = req.body.description;
