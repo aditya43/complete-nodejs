@@ -10,6 +10,7 @@ const session = require('express-session');
 const connectMongoDBSession = require('connect-mongodb-session');
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const MongoDBStore = connectMongoDBSession(session);
 const store = new MongoDBStore({
@@ -31,6 +32,10 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({
+    dest: 'images',
+    limits: { fileSize: 1000000 }
+}).single('image'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'some secret string',
