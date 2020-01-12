@@ -10,12 +10,15 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
     try {
-        return res.send(req.file);
+        if (!req.file) {
+            throw new Error('Invalid image file');
+        }
+
         const product = await new Product({
             title: req.body.title,
             price: req.body.price,
             description: req.body.description,
-            imageUrl: req.body.image,
+            imageUrl: req.file,
             userId: req.user
         });
 
@@ -23,7 +26,7 @@ exports.postAddProduct = async (req, res, next) => {
 
         res.redirect('/admin/products');
     } catch (e) {
-        console.log(e);
+        return next(new Error(e));
     }
 };
 

@@ -93,7 +93,8 @@ app.use(async (error, req, res, next) => {
     // If you have more than one error handling middlewares, they will be executed from top to bottom. Just like normal middlewares.
     logger.error({
         message: error.message,
-        error: error
+        error: error,
+        stack: error.stack
     });
     res.status(500).render('500', {
         pageTitle: '500 | Something went wrong',
