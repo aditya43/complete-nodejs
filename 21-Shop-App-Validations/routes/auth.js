@@ -6,7 +6,7 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.get('/login', authController.getLogin);
-router.post('/login', authController.postLogin);
+router.post('/login', [check('email').normalizeEmail()], authController.postLogin);
 router.post('/logout', authController.postLogout);
 router.get('/signup', authController.getSignup);
 
@@ -21,7 +21,8 @@ router.post('/signup', [
             }
 
             return true;
-        }),
+        })
+        .normalizeEmail(),
 
     body('password', 'Password must be alphanumeric and at least 3 charachers long.').isLength({ min: 3, max: 20 })
         .isAlphanumeric(),
