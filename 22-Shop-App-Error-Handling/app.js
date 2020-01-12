@@ -1,6 +1,8 @@
 require('./util/helpers');
 require('./util/loadEnv');
 
+const logger = require('./util/errorLogger');
+
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -46,11 +48,14 @@ app.use(async (req, res, next) => {
 
             if (user) {
                 req.user = user;
+                return next();
             }
         }
-        next();
+
+        return next(new Error('Session user not found'));
     } catch (e) {
-        throw new Error(e);
+        return next(e);
+        // return next(new Error('Failed to fetch session user')); // This will skip all other middlewares and move on error handling middleware.
     }
 });
 
@@ -64,7 +69,22 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
-app.get('/500', errorController.get500);
 app.use(errorController.get404);
+
+// Error handling middleware.
+app.use(async (error, req, res, next) => {
+    // Express automatically knows when middleware has 4 arguments, it's an error handling middleware.
+    // If you have more than one error handling middlewares, they will be executed from top to bottom. Just like normal middlewares.
+    logger.error({
+        message: error.message,
+        error: error
+    });
+    res.status(500).render('500', {
+        pageTitle: '500 | Something went wrong',
+        path: '/500',
+        isAuthenticated: req.session.isAuthenticated,
+        csrfToken: req.csrfToken()
+    });
+});
 
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
