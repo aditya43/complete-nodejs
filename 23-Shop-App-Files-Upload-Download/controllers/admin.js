@@ -61,7 +61,11 @@ exports.postEditProduct = async (req, res, next) => {
         product.title = req.body.title;
         product.price = req.body.price;
         product.description = req.body.description;
-        product.imageUrl = req.body.imageUrl;
+
+        if (req.file) {
+            product.imageUrl = req.file;
+        }
+
         product.productId = req.body.productId;
 
         await product.save();
