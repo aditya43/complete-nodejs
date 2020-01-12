@@ -1,0 +1,31 @@
+{
+    "name": "nodejs-complete-guide",
+    "version": "1.0.0",
+    "description": "Complete Node.js Guide",
+    "main": "app.js",
+    "scripts": {
+        "dev": "set NODE_ENV=dev & nodemon app.js",
+        "start": "NODE_ENV=prod node app.js"
+    },
+    "author": "Aditya Hajare",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^1.18.3"
+    },
+    "dependencies": {
+        "@sendgrid/mail": "^6.4.0",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.18.3",
+        "connect-flash": "^0.1.1",
+        "connect-mongodb-session": "^2.2.0",
+        "csurf": "^1.10.0",
+        "dotenv": "^8.2.0",
+        "ejs": "^2.6.1",
+        "express": "^4.16.3",
+        "express-handlebars": "^3.0.0",
+        "express-session": "^1.17.0",
+        "mongodb": "^3.4.1",
+        "mongoose": "^5.8.5",
+        "pug": "^2.0.3"
+    }
+}
