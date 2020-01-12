@@ -88,13 +88,6 @@ exports.postSignup = async (req, res, next) => {
         });
     }
 
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-        req.flash('error', 'E-mail address already in use.');
-        return res.redirect('/signup');
-    }
-
     const user = await new User({ email, password, cart: { items: [] } });
     await user.save();
 
