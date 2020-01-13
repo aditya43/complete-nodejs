@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 
@@ -6,7 +9,7 @@ exports.getProducts = async (req, res, next) => {
     res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products',
+        path: '/products'
     });
 };
 
@@ -20,7 +23,7 @@ exports.getProduct = async (req, res, next) => {
     res.render('shop/product-detail', {
         product: product,
         pageTitle: product.title,
-        path: '/products',
+        path: '/products'
     });
 };
 
@@ -50,7 +53,7 @@ exports.getCart = async (req, res, next) => {
     res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: products,
+        products: products
     });
 };
 
@@ -78,7 +81,7 @@ exports.postOrder = async (req, res, next) => {
         return {
             product: { ...item.productId._doc },
             quantity: item.quantity
-        }
+        };
     });
 
     const order = new Order({
@@ -87,7 +90,7 @@ exports.postOrder = async (req, res, next) => {
             userId: req.user
         },
         products
-    })
+    });
 
     await order.save();
     await req.user.clearCart();
@@ -101,6 +104,20 @@ exports.getOrders = async (req, res, next) => {
     res.render('shop/orders', {
         path: '/orders',
         pageTitle: 'Your Orders',
-        orders,
+        orders
     });
+};
+
+exports.getInvoice = async (req, res, next) => {
+    try {
+        const orderId = req.params.orderId;
+        const invoiceName = `invoice-${orderId}.pdf`;
+
+        const invoicePath = path.join('data', 'invoices', invoiceName);
+        const data = await fs.readFile(invoicePath);
+
+        res.send(data);
+    } catch (e) {
+        return next(e);
+    }
 };
