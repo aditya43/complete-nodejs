@@ -70,7 +70,7 @@ app.use(async (req, res, next) => {
             }
         }
 
-        return next(new Error('Session user not found'));
+        return next(new Error('User stored in session not found.'));
     } catch (e) {
         return next(e); // This will skip all other middlewares and move on error handling middleware.
     }
