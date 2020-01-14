@@ -1,3 +1,5 @@
+const { deleteFile } = require('../util/file');
+
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
@@ -63,6 +65,7 @@ exports.postEditProduct = async (req, res, next) => {
         product.description = req.body.description;
 
         if (req.file) {
+            deleteFile(product.imageUrl);
             product.imageUrl = req.file;
         }
 
@@ -99,10 +102,15 @@ exports.getProducts = async (req, res, next) => {
 
 exports.postDeleteProduct = async (req, res, next) => {
     try {
+        const product = await Product.findById(req.body.productId);
+
+        deleteFile(product.imageUrl);
+
         await Product.deleteOne({
             _id: req.body.productId,
             userId: req.user._id
         });
+
         res.redirect('/admin/products');
     } catch (e) {
         console.log(e);
