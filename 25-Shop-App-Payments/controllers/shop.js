@@ -190,3 +190,25 @@ exports.getInvoice = async (req, res, next) => {
         return next(e);
     }
 };
+
+exports.getCheckout = async (req, res, next) => {
+    const userCart = await req.user.populate('cart.items.productId').execPopulate();
+
+    if (!userCart.cart.items) {
+        res.redirect('/');
+    }
+
+    const products = userCart.cart.items;
+    let totalAmount = 0;
+
+    products.forEach(product => {
+        totalAmount += product.quantity * product.productId.price;
+    })
+
+    res.render('shop/checkout', {
+        path: '/checkout',
+        pageTitle: 'Checkout',
+        products,
+        totalAmount
+    });
+};
