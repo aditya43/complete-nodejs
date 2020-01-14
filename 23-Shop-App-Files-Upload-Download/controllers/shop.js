@@ -116,6 +116,9 @@ exports.getInvoice = async (req, res, next) => {
         const invoicePath = path.join('data', 'invoices', invoiceName);
         const data = await fs.readFile(invoicePath);
 
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
+
         res.send(data);
     } catch (e) {
         return next(e);
