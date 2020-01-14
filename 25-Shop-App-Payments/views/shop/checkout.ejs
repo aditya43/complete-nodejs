@@ -17,5 +17,20 @@
             <div class="centered">
                 <h2>Total: <%= totalAmount %></h2>
             </div>
+            <div class="centered">
+                <form action="/create-order" method="post">
+                    <script
+                    src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key=""
+                    data-amount="<%= totalAmount * 100 %>"
+                    data-name="Shop App - Your Order"
+                    data-description="All the items you ordered"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-currency="usd">
+                    </script>
+                </form>
+            </div>
         </main>
         <%- include('../includes/end.ejs') %>
