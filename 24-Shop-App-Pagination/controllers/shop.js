@@ -6,11 +6,29 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 
 exports.getProducts = async (req, res, next) => {
-    const products = await Product.find();
+    const page = +req.query.page || 1;
+    const itemsPerPage = parseInt(process.env.PAGE_ITEMS_PER_PAGE);
+
+    const totalProductsCount = await Product.find().countDocuments();
+
+    const products = await Product.find()
+        .skip((page - 1) * itemsPerPage)
+        .limit(itemsPerPage);
+
+    if (!products) {
+        return res.redirect('/404');
+    }
+
     res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products'
+        path: '/products',
+        currentPage: page,
+        hasNextPage: itemsPerPage * page < totalProductsCount,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalProductsCount / itemsPerPage)
     });
 };
 
@@ -30,10 +48,10 @@ exports.getProduct = async (req, res, next) => {
 
 exports.getIndex = async (req, res, next) => {
     try {
-        const page = req.query.page || 1;
+        const page = +req.query.page || 1;
         const itemsPerPage = parseInt(process.env.PAGE_ITEMS_PER_PAGE);
 
-        const totalProductsCount = await Product.find().count();
+        const totalProductsCount = await Product.find().countDocuments();
 
         const products = await Product.find()
             .skip((page - 1) * itemsPerPage)
@@ -47,7 +65,7 @@ exports.getIndex = async (req, res, next) => {
             prods: products,
             pageTitle: 'Shop',
             path: '/',
-            totalProducts: totalProductsCount,
+            currentPage: page,
             hasNextPage: itemsPerPage * page < totalProductsCount,
             hasPreviousPage: page > 1,
             nextPage: page + 1,
