@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const PDFDocument = require('pdfkit');
 
 const Product = require('../models/product');
 const Order = require('../models/order');
@@ -111,25 +112,35 @@ exports.getOrders = async (req, res, next) => {
 exports.getInvoice = async (req, res, next) => {
     try {
         const orderId = req.params.orderId;
-        const invoiceName = `invoice-${orderId}.pdf`;
 
         const order = await Order.findById(orderId);
 
         if (order.user.userId.toString() === req.user._id.toString()) {
+            const invoiceName = `invoice-${orderId}.pdf`;
             const invoicePath = path.join('data', 'invoices', invoiceName);
-            // const data = await fs.readFile(invoicePath);
 
+            // Preloading data
+            // const data = await fs.readFile(invoicePath);
             // res.setHeader('Content-Type', 'application/pdf');
             // res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
-
             // res.send(data);
 
-            const invoiceFile = fs.createReadStream(invoicePath);
+            // Streaming data
+            // const invoiceFile = fs.createReadStream(invoicePath);
+            // res.setHeader('Content-Type', 'application/pdf');
+            // res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
+            // invoiceFile.pipe(res);
 
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
+            // Generating PDFs using PDFKit
+            const pdfDoc = new PDFDocument();
+            const fileWriteStream = fs.createWriteStream(invoicePath);
 
-            invoiceFile.pipe(res);
+            pdfDoc.pipe(fileWriteStream);
+            pdfDoc.pipe(res);
+
+            pdfDoc.text('Hello World');
+
+            pdfDoc.end();
         }
     } catch (e) {
         return next(e);
