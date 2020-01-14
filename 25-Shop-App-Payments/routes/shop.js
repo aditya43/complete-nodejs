@@ -10,7 +10,7 @@ router.get('/products/:productId', shopController.getProduct);
 router.get('/cart', authMiddleware, shopController.getCart);
 router.post('/cart', authMiddleware, shopController.postCart);
 router.post('/cart-delete-item', authMiddleware, shopController.postCartDeleteProduct);
-router.get('/checkout', authMiddleware, shopController.getCheckout)
+router.get('/checkout', authMiddleware, shopController.getCheckout);
 router.get('/orders', authMiddleware, shopController.getOrders);
 router.post('/create-order', authMiddleware, shopController.postOrder);
 router.get('/orders/:orderId', authMiddleware, shopController.getInvoice);

@@ -203,7 +203,7 @@ exports.getCheckout = async (req, res, next) => {
 
     products.forEach(product => {
         totalAmount += product.quantity * product.productId.price;
-    })
+    });
 
     res.render('shop/checkout', {
         path: '/checkout',
