@@ -29,17 +29,26 @@ exports.getProduct = async (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
-    const products = await Product.find();
+    try {
+        const page = req.query.page || 1;
+        const itemsPerPage = parseInt(process.env.PAGE_ITEMS_PER_PAGE);
 
-    if (!products) {
-        return res.redirect('/404');
+        const products = await Product.find()
+            .skip((page - 1) * itemsPerPage)
+            .limit(itemsPerPage);
+
+        if (!products) {
+            return res.redirect('/404');
+        }
+
+        res.render('shop/index', {
+            prods: products,
+            pageTitle: 'Shop',
+            path: '/'
+        });
+    } catch (e) {
+        return next(e);
     }
-
-    res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/'
-    });
 };
 
 exports.getCart = async (req, res, next) => {
