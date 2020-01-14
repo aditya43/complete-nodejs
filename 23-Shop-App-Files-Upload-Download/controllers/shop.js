@@ -117,12 +117,19 @@ exports.getInvoice = async (req, res, next) => {
 
         if (order.user.userId.toString() === req.user._id.toString()) {
             const invoicePath = path.join('data', 'invoices', invoiceName);
-            const data = await fs.readFile(invoicePath);
+            // const data = await fs.readFile(invoicePath);
+
+            // res.setHeader('Content-Type', 'application/pdf');
+            // res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
+
+            // res.send(data);
+
+            const invoiceFile = fs.createReadStream(invoicePath);
 
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', `inline; filename=${invoicename}`);
 
-            res.send(data);
+            invoiceFile.pipe(res);
         }
     } catch (e) {
         return next(e);
