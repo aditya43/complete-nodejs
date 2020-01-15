@@ -29,6 +29,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Cookies](#cookies)
 - [Sessions](#sessions)
 - [Storing Sessions In MongoDB](#storing-sessions-in-mongodb)
+- [Allow CORS For REST APIs](#allow-cors-for-rest-apis)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -231,4 +232,24 @@ app.use(session({
     saveUninitialized: false,
     store
 }));
+```
+
+### Allow CORS For REST APIs
+- To allow `CORS` in REST API project,
+```
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+    // CORS Middleware
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+})
+
+app.listen(8080);
 ```
