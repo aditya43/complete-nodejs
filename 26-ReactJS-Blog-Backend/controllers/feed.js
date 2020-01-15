@@ -1,4 +1,4 @@
-exports.feedPosts = async (req, res, next) => {
+exports.getPosts = async (req, res, next) => {
     res.status(200).json({ message: 'working' });
 }
 
