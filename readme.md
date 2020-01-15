@@ -1,5 +1,5 @@
 ## About This Project
-NodeJS - Express, Mongo, Sequelize, Mongoose, Socket.io & lot more.
+NodeJS - Express, Mongo, Sequelize, Mongoose, Socket.io, REST APIs, ReactJS Social Network & lot more.
 My personal notes and apps.
 
 ## Author
