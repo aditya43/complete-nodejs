@@ -1,3 +1,5 @@
+require('./utils/loadEnv');
+
 const express = require('express');
 
 const feedRoutes = require('./routes/feed');
@@ -6,6 +8,4 @@ const app = express();
 
 app.use('/feed', feedRoutes);
 
-app.listen(8080, () => {
-    console.log(`Server started on 8080`);
-});
+app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
