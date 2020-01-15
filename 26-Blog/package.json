@@ -1,0 +1,19 @@
+{
+    "name": "complete-nodejs-rest-api",
+    "version": "1.0.0",
+    "description": "REST API Driven application",
+    "main": "index.js",
+    "scripts": {
+        "dev": "set NODE_ENV=dev & nodemon app.js",
+        "start": "NODE_ENV=prod node app.js"
+    },
+    "keywords": [],
+    "author": "Aditya Hajare",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    }
+}
