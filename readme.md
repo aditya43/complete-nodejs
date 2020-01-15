@@ -235,21 +235,41 @@ app.use(session({
 ```
 
 ### Allow CORS For REST APIs
-- To allow `CORS` in REST API project,
-```
-const express = require('express');
-const bodyParser = require('body-parser');
+- Method #1:
+    * Using express `cors` middleware package:
+        - Install `cors` npm package:
+        ```
+        npm i cors --save
+        ```
+        - Use it in `app.js`:
+        ```
+        const express = require('express');
+        const cors = require('cors'); // CORS
+        const bodyParser = require('body-parser');
 
-const app = express();
+        const app = express();
 
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-    // CORS Middleware
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-})
+        app.use(bodyParser.json());
+        app.use(cors()); // CORS
 
-app.listen(8080);
-```
+        app.listen(8080);
+        ```
+- Method #2:
+    * Manually setting headers (**NOTE:** May not work in most cases):
+    ```
+    const express = require('express');
+    const bodyParser = require('body-parser');
+
+    const app = express();
+
+    app.use(bodyParser.json());
+    app.use((req, res, next) => {
+        // CORS Middleware
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        next();
+    })
+
+    app.listen(8080);
+    ```
