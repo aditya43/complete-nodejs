@@ -31,17 +31,20 @@ exports.createPost = async (req, res, next) => {
     const title = req.body.title;
     const content = req.body.content;
 
-    const post = await models.post.create({
-        title,
-        content,
-        imageUrl: 'images/macbook.png',
-        creator: 1
-    });
+    try {
+        const post = await models.post.create({
+            title,
+            content,
+            imageUrl: 'images/macbook.png',
+            creator: 1
+        });
 
-    console.log(post);
-    res.status(201).json({
-        code: 201,
-        message: 'Success',
-        post
-    });
+        res.status(201).json({
+            code: 201,
+            message: 'Success',
+            post
+        });
+    } catch (error) {
+        return error;
+    }
 };
