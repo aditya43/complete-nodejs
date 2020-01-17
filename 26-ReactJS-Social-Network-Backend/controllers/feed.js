@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const models = require('../models/index');
 
 exports.getPosts = async (req, res, next) => {
     res.status(200).json({
@@ -29,19 +30,32 @@ exports.createPost = async (req, res, next) => {
 
     const title = req.body.title;
     const content = req.body.content;
-
-    res.status(201).json({
-        message: 'Success',
-        post: {
-            _id: new Date().toISOString(),
-            title,
-            content,
-            imageUrl: 'images/macbook.png',
-            creator: {
-                name: 'Aditya Hajare'
-            },
-            createdAt: new Date()
-        }
+    // return res.json(models);
+    const post = await models.post.create({
+        title,
+        content,
+        imageUrl: 'images/macbook.png',
+        creator: 1
     });
-}
-;
+
+    console.log(post);
+    res.status(201).json({
+        code: 201,
+        message: 'Success',
+        post
+    });
+
+    // res.status(201).json({
+    //     message: 'Success',
+    //     post: {
+    //         _id: new Date().toISOString(),
+    //         title,
+    //         content,
+    //         imageUrl: 'images/macbook.png',
+    //         creator: {
+    //             name: 'Aditya Hajare'
+    //         },
+    //         createdAt: new Date()
+    //     }
+    // });
+};
