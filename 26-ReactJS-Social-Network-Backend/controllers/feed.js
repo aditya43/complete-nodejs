@@ -30,7 +30,7 @@ exports.createPost = async (req, res, next) => {
 
     const title = req.body.title;
     const content = req.body.content;
-    // return res.json(models);
+
     const post = await models.post.create({
         title,
         content,
@@ -44,18 +44,4 @@ exports.createPost = async (req, res, next) => {
         message: 'Success',
         post
     });
-
-    // res.status(201).json({
-    //     message: 'Success',
-    //     post: {
-    //         _id: new Date().toISOString(),
-    //         title,
-    //         content,
-    //         imageUrl: 'images/macbook.png',
-    //         creator: {
-    //             name: 'Aditya Hajare'
-    //         },
-    //         createdAt: new Date()
-    //     }
-    // });
 };
