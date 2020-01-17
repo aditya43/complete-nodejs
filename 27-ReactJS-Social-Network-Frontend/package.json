@@ -1,6 +1,7 @@
 {
     "name": "reactjs-social-network",
     "version": "0.1.0",
+    "description": "ReactJS Social Netword Front End",
     "author": "Aditya Hajare",
     "license": "ISC",
     "dependencies": {

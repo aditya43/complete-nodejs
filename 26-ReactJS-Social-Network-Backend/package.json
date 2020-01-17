@@ -1,7 +1,7 @@
 {
     "name": "complete-nodejs-rest-api",
     "version": "1.0.0",
-    "description": "REST API Driven application",
+    "description": "ReactJS Social Netword Backend",
     "main": "index.js",
     "scripts": {
         "dev": "set NODE_ENV=dev & nodemon app.js",
@@ -16,7 +16,7 @@
         "express": "^4.17.1",
         "express-validator": "^6.3.1",
         "mysql2": "^2.1.0",
-        "sequelize": "^5.21.3",
+        "sequelize": "^5.21.3"
     },
     "devDependencies": {
         "sequelize-cli": "^5.5.1",
