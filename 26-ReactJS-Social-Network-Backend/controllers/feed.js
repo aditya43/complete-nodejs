@@ -53,3 +53,7 @@ exports.createPost = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getPost = async (req, res, next) => {
+
+};

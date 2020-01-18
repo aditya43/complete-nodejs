@@ -1,6 +1,6 @@
 require('./utils/loadEnv');
 
-const logger = require('./utils/errorLogger');
+const errorLogger = require('./middleware/errorLogger');
 
 const express = require('express');
 const cors = require('cors');
@@ -17,17 +17,6 @@ app.use(cors());
 
 app.use('/feed', feedRoutes);
 
-app.use((error, req, res, next) => {
-    console.log(error);
-    logger.error({
-        message: error.message || JSON.stringify(error),
-        error: error || {},
-        stack: error.stack || {}
-    });
-    res.status(500).json({
-        code: 500,
-        message: 'Something went wrong!'
-    });
-});
+app.use(errorLogger);
 
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
