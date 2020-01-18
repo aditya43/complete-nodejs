@@ -123,11 +123,11 @@ exports.updatePost = async (req, res, next) => {
             imageUrl = 'images/no-product-image.jpg';
         }
 
-        const post = await models.post.findAll({
+        const posts = await models.post.findAll({
             where: { id: postId }
         });
 
-        if (!post.length || post.length < 1) {
+        if (!posts.length || posts.length < 1) {
             return res.status(404).json({
                 code: 404,
                 status: 'failed',
@@ -135,11 +135,11 @@ exports.updatePost = async (req, res, next) => {
             });
         }
 
-        post[0].title = title;
-        post[0].content = content;
-        post[0].imageUrl = imageUrl;
+        posts[0].title = title;
+        posts[0].content = content;
+        posts[0].imageUrl = imageUrl;
 
-        const updatedPost = await post[0].save();
+        const updatedPost = await posts[0].save();
 
         if (imageUrl !== updatedPost.imageUrl) {
             clearImage(updatedPost.imageUrl);
@@ -149,6 +149,32 @@ exports.updatePost = async (req, res, next) => {
             code: 200,
             status: 'Success',
             post: updatedPost
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deletePost = async (req, res, next) => {
+    try {
+        const posts = await models.post.findAll({
+            where: { id: req.params.postId }
+        });
+
+        if (!posts.length || posts.length < 1) {
+            return res.status(404).json({
+                code: 404,
+                status: 'failed',
+                message: 'Post not found'
+            });
+        }
+
+        await posts[0].destroy();
+
+        res.status(200).json({
+            code: 200,
+            status: 'Success',
+            message: 'Post deleted'
         });
     } catch (error) {
         next(error);
