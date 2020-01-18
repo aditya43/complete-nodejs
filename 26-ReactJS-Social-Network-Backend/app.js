@@ -12,6 +12,7 @@ const path = require('path');
 
 // Route
 const feedRoutes = require('./routes/feed');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use(multer);
 
 app.use('/feed', feedRoutes);
+app.use(authRoutes);
 
 app.use(errorLogger);
 
