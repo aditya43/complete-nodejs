@@ -22,7 +22,7 @@ const button = props =>
       className={[
         'button',
         `button--${props.design}`,
-        `button--${props.mode}`
+        `button--${props.mode}`,
       ].join(' ')}
       to={props.link}
     >
