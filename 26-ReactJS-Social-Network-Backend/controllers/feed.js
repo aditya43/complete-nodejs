@@ -6,7 +6,14 @@ const models = require('../models/index');
 
 exports.getPosts = async (req, res, next) => {
     try {
-        const posts = await models.post.findAll();
+        const currentPage = req.query.page || 1;
+        const perPage = 2;
+        const totalItems = await models.post.count();
+
+        const posts = await models.post.findAll({
+            offset: ((currentPage - 1) * perPage),
+            limit: perPage
+        });
 
         if (!posts.length || posts.length < 1) {
             return res.status(404).json({
@@ -19,7 +26,8 @@ exports.getPosts = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: 'success',
-            posts
+            posts,
+            totalItems
         });
     } catch (error) {
         next(error);
