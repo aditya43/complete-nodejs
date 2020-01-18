@@ -170,6 +170,7 @@ exports.deletePost = async (req, res, next) => {
         }
 
         await posts[0].destroy();
+        clearImage(posts[0].imageUrl);
 
         res.status(200).json({
             code: 200,
