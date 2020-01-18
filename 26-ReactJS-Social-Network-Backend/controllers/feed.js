@@ -27,6 +27,8 @@ exports.createPost = async (req, res, next) => {
             error.message = errors.array();
 
             res.status(422).json({
+                code: 422,
+                status: 'failed',
                 message: 'Failed to validate',
                 errors: errors.array()
             });
@@ -46,7 +48,7 @@ exports.createPost = async (req, res, next) => {
 
         res.status(201).json({
             code: 201,
-            message: 'Success',
+            status: 'Success',
             post
         });
     } catch (error) {
@@ -55,5 +57,25 @@ exports.createPost = async (req, res, next) => {
 };
 
 exports.getPost = async (req, res, next) => {
+    try {
+        const post = await models.post.findAll({
+            where: { id: req.params.postId }
+        });
 
+        if (!post.length || !post.length < 1) {
+            return res.status(404).json({
+                code: 404,
+                status: 'failed',
+                message: 'Post not found'
+            });
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: 'success',
+            post
+        });
+    } catch (error) {
+        next(error);
+    }
 };
