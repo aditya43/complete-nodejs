@@ -1,4 +1,7 @@
 'use strict';
+
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
     const user = sequelize.define('user', {
         email: {
@@ -20,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         timestamps: true,
-        modelName: 'User'
+        modelName: 'User',
+        hooks: {
+            beforeCreate: async (user, options) => {
+                user.password = await bcrypt.hash(user.password, 12);
+            }
+        }
     });
 
     user.associate = function (models) {
