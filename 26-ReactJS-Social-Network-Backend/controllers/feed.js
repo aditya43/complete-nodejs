@@ -67,11 +67,12 @@ exports.createPost = async (req, res, next) => {
 
         const title = req.body.title;
         const content = req.body.content;
+        const imageUrl = !req.file ? 'images/no-product-image.jpg' : req.file.path;
 
         const post = await models.post.create({
             title,
             content,
-            imageUrl: 'images/macbook.png',
+            imageUrl: imageUrl,
             creator: 1
         });
 
