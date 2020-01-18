@@ -19,19 +19,24 @@ exports.getPosts = async (req, res, next) => {
 };
 
 exports.createPost = async (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        res.status(422).json({
-            message: 'Failed to validate',
-            errors: errors.array()
-        });
-    }
-
-    const title = req.body.title;
-    const content = req.body.content;
-
     try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            const error = new Error();
+            error.message = errors.array();
+
+            res.status(422).json({
+                message: 'Failed to validate',
+                errors: errors.array()
+            });
+
+            throw error;
+        }
+
+        const title = req.body.title;
+        const content = req.body.content;
+
         const post = await models.post.create({
             title,
             content,
@@ -45,6 +50,6 @@ exports.createPost = async (req, res, next) => {
             post
         });
     } catch (error) {
-        return error;
+        next(error);
     }
 };

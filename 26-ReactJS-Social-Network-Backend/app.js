@@ -18,9 +18,11 @@ app.use(cors());
 app.use('/feed', feedRoutes);
 
 app.use((error, req, res, next) => {
+    console.log(error);
     logger.error({
-        message: error.message,
-        error: error
+        message: error.message || JSON.stringify(error),
+        error: error || {},
+        stack: error.stack || {}
     });
     res.status(500).json({
         code: 500,

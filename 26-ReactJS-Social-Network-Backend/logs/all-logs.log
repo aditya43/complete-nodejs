@@ -1,2 +1,0 @@
-{"message":"Cannot set headers after they are sent to the client","error":{"code":"ERR_HTTP_HEADERS_SENT"},"level":"error"}
-{"message":"Cannot set headers after they are sent to the client","error":{"code":"ERR_HTTP_HEADERS_SENT"},"level":"error"}
