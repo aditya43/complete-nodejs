@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 
     post.associate = function (models) {
         post.belongsTo(models.user, {
-            referenceKey: 'creator'
+            sourceKey: 'creator',
+            foreignKey: 'id'
         });
     };
 

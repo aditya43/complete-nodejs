@@ -4,6 +4,16 @@ const path = require('path');
 const { validationResult } = require('express-validator');
 const models = require('../models/index');
 
+exports.test = async (req, res, next) => {
+    try {
+        const user = await models.user.findAll({ where: { id: 1 } });
+        const posts = await user[0].getPosts();
+        res.json(posts);
+    } catch (error) {
+        next(error);
+    }
+};
+
 exports.getPosts = async (req, res, next) => {
     try {
         const currentPage = req.query.page || 1;
