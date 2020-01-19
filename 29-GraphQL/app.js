@@ -25,7 +25,8 @@ app.use(multer);
 // GraphQL
 app.use('/graphql', graphqlHttp({
     schema: graphqlSchema,
-    rootValue: graphqlResolver
+    rootValue: graphqlResolver,
+    graphiql: true
 }));
 
 app.use(errorLogger);
