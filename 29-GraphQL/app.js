@@ -26,7 +26,18 @@ app.use(multer);
 app.use('/graphql', graphqlHttp({
     schema: graphqlSchema,
     rootValue: graphqlResolver,
-    graphiql: true
+    graphiql: true,
+    formatError: err => {
+        if (!err.originalError) {
+            return err;
+        }
+
+        const data = err.originalError.data || [];
+        const status = err.message || 'Something went wrong';
+        const code = err.originalError.code || 500;
+
+        return { data, status, code };
+    }
 }));
 
 app.use(errorLogger);
