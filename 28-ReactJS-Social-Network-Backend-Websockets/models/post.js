@@ -21,7 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         timestamps: true,
-        modelName: 'Post'
+        modelName: 'Post',
+        defaultScope: {
+            include: [{
+                association: 'user',
+                as: 'creator'
+            }]
+        }
     });
 
     post.associate = function (models) {

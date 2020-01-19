@@ -20,7 +20,7 @@ exports.test1 = async (req, res, next) => {
 exports.test2 = async (req, res, next) => {
     try {
         const posts = await models.post.findAll({
-            include: ['user']
+            // include: ['user']
         });
 
         posts.filter(post => {
