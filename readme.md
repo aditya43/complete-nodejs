@@ -19,6 +19,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 -----------------------
 
 ## Important Notes
+- [Options Request](#options-request)
 - [Debugging Using Node Debugger](#debugging-using-node-debugger)
 - [Call Stack](#call-stack)
 - [Event Loop](#event-loop)
@@ -31,6 +32,11 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Storing Sessions In MongoDB](#storing-sessions-in-mongodb)
 - [Allow CORS For REST APIs](#allow-cors-for-rest-apis)
 - [GraphQL](#graphql)
+
+### Options Request
+- Browser sends a `OPTIONS` request before it sends `POST, PATCH, PUT, DELETE` etc.. requests.
+- You may typically get `405 (Method Not Allowed)` error.
+- `Express GraphQL` automatically declines anything which is not a `POST` or `GET` request. So the `OPTIONS` request is denied.
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
