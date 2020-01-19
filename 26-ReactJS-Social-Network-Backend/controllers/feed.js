@@ -90,17 +90,27 @@ exports.createPost = async (req, res, next) => {
         const content = req.body.content;
         const imageUrl = !req.file ? 'images/no-product-image.jpg' : req.file.path;
 
+        const users = await models.user.findAll({ where: { id: req.userId } });
+
+        if (!users.length || users.length < 1) {
+            throw new Error('User not found.');
+        }
+
         const post = await models.post.create({
             title,
             content,
             imageUrl: imageUrl,
-            creator: 1
+            creator: req.userId
         });
 
         res.status(201).json({
             code: 201,
             status: 'Success',
-            post
+            post,
+            creator: {
+                id: users[0].id,
+                name: users[0].name
+            }
         });
     } catch (error) {
         next(error);
