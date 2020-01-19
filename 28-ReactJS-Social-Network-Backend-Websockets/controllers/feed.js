@@ -204,6 +204,14 @@ exports.updatePost = async (req, res, next) => {
 
         const updatedPost = await posts[0].save();
 
+        updatedPost.creator = updatedPost.user;
+        delete updatedPost.user;
+
+        io.getIO().emit('posts', {
+            action: 'update',
+            post: updatedPost
+        });
+
         if (imageUrl !== updatedPost.imageUrl) {
             clearImage(updatedPost.imageUrl);
         }
