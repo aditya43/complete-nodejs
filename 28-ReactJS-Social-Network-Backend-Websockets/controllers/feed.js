@@ -22,6 +22,11 @@ exports.test2 = async (req, res, next) => {
         const posts = await models.post.findAll({
             include: ['user']
         });
+
+        posts.filter(post => {
+            post.creator = post.user;
+            delete post.user;
+        });
         res.json(posts);
     } catch (error) {
         next(error);
@@ -36,7 +41,8 @@ exports.getPosts = async (req, res, next) => {
 
         const posts = await models.post.findAll({
             offset: ((currentPage - 1) * perPage),
-            limit: perPage
+            limit: perPage,
+            include: ['user']
         });
 
         if (!posts.length || posts.length < 1) {
@@ -46,6 +52,11 @@ exports.getPosts = async (req, res, next) => {
                 message: 'Posts not found'
             });
         }
+
+        posts.filter(post => {
+            post.creator = post.user;
+            delete post.user;
+        });
 
         res.status(200).json({
             code: 200,
