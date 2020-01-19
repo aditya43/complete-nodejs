@@ -39,3 +39,24 @@ exports.signup = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.login = async (req, res, next) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+
+        const user = await models.user.findByCredentials(email, password);
+
+        if (!user) {
+            return res.status(401).json({
+                code: 401,
+                status: 'failed',
+                message: 'Invalid credentials'
+            });
+        }
+
+        res.json(user);
+    } catch (error) {
+        next(error);
+    }
+};
