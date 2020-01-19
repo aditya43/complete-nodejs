@@ -3,11 +3,25 @@ const path = require('path');
 
 const { validationResult } = require('express-validator');
 const models = require('../models/index');
+const io = require('../socket');
 
-exports.test = async (req, res, next) => {
+exports.test1 = async (req, res, next) => {
     try {
-        const user = await models.user.findAll({ where: { id: 1 } });
-        const posts = await user[0].getPosts();
+        const user = await models.user.findAll({
+            where: { id: 2 },
+            include: ['posts']
+        });
+        res.json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.test2 = async (req, res, next) => {
+    try {
+        const posts = await models.post.findAll({
+            include: ['user']
+        });
         res.json(posts);
     } catch (error) {
         next(error);
@@ -101,6 +115,11 @@ exports.createPost = async (req, res, next) => {
             content,
             imageUrl: imageUrl,
             creator: req.userId
+        });
+
+        io.getIO().emit('posts', {
+            action: 'create',
+            post
         });
 
         res.status(201).json({

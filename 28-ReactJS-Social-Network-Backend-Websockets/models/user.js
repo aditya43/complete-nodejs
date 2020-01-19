@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
             beforeCreate: async (user, options) => {
                 user.password = await bcrypt.hash(user.password, 12);
             }
+        },
+        defaultScope: {
+            attributes: { exclude: ['password'] }
         }
     });
 

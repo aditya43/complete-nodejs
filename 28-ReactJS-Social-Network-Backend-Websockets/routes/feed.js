@@ -11,6 +11,7 @@ router.post('/post', [checkAuthentication, title, content], feedController.creat
 router.get('/post/:postId', [checkAuthentication], feedController.getPost);
 router.put('/post/:postId', [checkAuthentication, title, content], feedController.updatePost);
 router.delete('/post/:postId', [checkAuthentication], feedController.deletePost);
-router.get('/test', [checkAuthentication], feedController.test);
+router.get('/test1', feedController.test1);
+router.get('/test2', feedController.test2);
 
 module.exports = router;
