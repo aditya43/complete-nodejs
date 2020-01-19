@@ -29,9 +29,21 @@ module.exports = (sequelize, DataTypes) => {
                 user.password = await bcrypt.hash(user.password, 12);
             }
         },
-        instanceMethods: {
+        classMethods: {
             findByCredentials: async function (email, password) {
-                //
+                const users = await this.findAll({ where: { email } });
+
+                if (!users.length || users.length < 1) {
+                    throw new Error('User not found');
+                }
+
+                const isPasswordMatch = await bcrypt.compare(password, users[0].password);
+
+                if (!isPasswordMatch) {
+                    throw new Error('Invalid credentials'); // Password doesn't match
+                }
+
+                return users[0];
             }
         }
     });
