@@ -39,5 +39,23 @@ module.exports = {
             email: user.email,
             name: user.name
         };
+    },
+    login: async function (args, req) {
+        const { email, password } = args.userInput;
+
+        const user = await models.user.findByCredentials(email, password);
+
+        if (!user) {
+            const error = new Error('User not found');
+            error.code = 401;
+            throw error;
+        }
+
+        const token = jwt.sign({ email: user.email, userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        return {
+            token,
+            userId: user.id
+        };
     }
 };
