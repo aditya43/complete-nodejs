@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 const models = require('../models/index');
 
 exports.signup = async (req, res, next) => {
@@ -55,7 +56,22 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        res.json(user);
+        const token = jwt.sign({
+            email: user.email,
+            userId: user.id
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: '1h'
+        });
+
+        res.status(201).json({
+            code: 201,
+            status: 'Success',
+            message: 'Login successful',
+            token,
+            userId: user.id
+        });
     } catch (error) {
         next(error);
     }
