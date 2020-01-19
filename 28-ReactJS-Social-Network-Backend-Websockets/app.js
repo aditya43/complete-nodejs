@@ -32,5 +32,5 @@ const server = app.listen(process.env.PORT, () => console.log(`Server is running
 const io = require('socket.io')(server);
 
 io.on('connection', socket => {
-    console.log('Client connected', socket);
+    console.log('Client connected');
 });
