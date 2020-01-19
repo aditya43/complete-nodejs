@@ -249,6 +249,11 @@ exports.deletePost = async (req, res, next) => {
         await posts[0].destroy();
         clearImage(posts[0].imageUrl);
 
+        io.getIO().emit('posts', {
+            action: 'delete',
+            post: req.params.postId
+        });
+
         res.status(200).json({
             code: 200,
             status: 'Success',
