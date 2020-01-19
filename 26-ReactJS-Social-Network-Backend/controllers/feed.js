@@ -152,7 +152,10 @@ exports.updatePost = async (req, res, next) => {
         }
 
         const posts = await models.post.findAll({
-            where: { id: postId }
+            where: {
+                id: postId,
+                creator: req.userId
+            }
         });
 
         if (!posts.length || posts.length < 1) {
