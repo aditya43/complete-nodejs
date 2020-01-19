@@ -22,7 +22,7 @@ app.use(cors());
 app.use(multer);
 
 app.use('/feed', feedRoutes);
-app.use(authRoutes);
+app.use('/auth', authRoutes);
 
 app.use(errorLogger);
 

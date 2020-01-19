@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.STRING,
-            allowNull: false
+            default: 'I am new'
         }
     }, {
         sequelize,
@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         hooks: {
             beforeCreate: async (user, options) => {
                 user.password = await bcrypt.hash(user.password, 12);
+            }
+        },
+        instanceMethods: {
+            findByCredentials: async function (email, password) {
+                //
             }
         }
     });

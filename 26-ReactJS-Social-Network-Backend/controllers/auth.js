@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
-const { user } = require('../models/index');
+const models = require('../models/index');
 
-exports.signup = (req, res, next) => {
+exports.signup = async (req, res, next) => {
     try {
         const errors = validationResult(req);
 
@@ -22,6 +22,19 @@ exports.signup = (req, res, next) => {
         const email = req.body.email;
         const name = req.body.name;
         const password = req.body.password;
+
+        const user = await models.user.create({
+            email,
+            name,
+            password
+        });
+
+        res.status(201).json({
+            code: 201,
+            status: 'Success',
+            message: 'User created',
+            userId: user.id
+        });
     } catch (error) {
         next(error);
     }
