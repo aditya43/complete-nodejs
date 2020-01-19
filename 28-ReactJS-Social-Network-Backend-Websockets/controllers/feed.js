@@ -41,8 +41,8 @@ exports.getPosts = async (req, res, next) => {
 
         const posts = await models.post.findAll({
             offset: ((currentPage - 1) * perPage),
-            limit: perPage,
-            include: ['user']
+            limit: perPage
+            // include: ['user']
         });
 
         if (!posts.length || posts.length < 1) {
@@ -121,26 +121,28 @@ exports.createPost = async (req, res, next) => {
             throw new Error('User not found.');
         }
 
-        const post = await models.post.create({
+        const newPost = await models.post.create({
             title,
             content,
             imageUrl: imageUrl,
             creator: req.userId
         });
 
+        const posts = await models.post.findAll({ where: { id: newPost.id } });
+
+        posts[0].creator = posts[0].user;
+        delete posts[0].user;
+
         io.getIO().emit('posts', {
             action: 'create',
-            post
+            post: posts[0]
         });
 
         res.status(201).json({
             code: 201,
             status: 'Success',
-            post,
-            creator: {
-                id: users[0].id,
-                name: users[0].name
-            }
+            post: posts[0],
+            creator: posts[0].creator
         });
     } catch (error) {
         next(error);
