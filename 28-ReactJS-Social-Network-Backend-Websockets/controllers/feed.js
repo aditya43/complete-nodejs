@@ -41,7 +41,10 @@ exports.getPosts = async (req, res, next) => {
 
         const posts = await models.post.findAll({
             offset: ((currentPage - 1) * perPage),
-            limit: perPage
+            limit: perPage,
+            order: [
+                ['createdAt', 'DESC']
+            ]
             // include: ['user']
         });
 
