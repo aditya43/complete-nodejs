@@ -30,6 +30,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Sessions](#sessions)
 - [Storing Sessions In MongoDB](#storing-sessions-in-mongodb)
 - [Allow CORS For REST APIs](#allow-cors-for-rest-apis)
+- [GraphQL](#graphql)
 
 ### Debugging Using Node Debugger
 - Add `debugger` keyword wherever you want to stop your program execution and begin debugging. For e.g.:
@@ -273,3 +274,15 @@ app.use(session({
 
     app.listen(8080);
     ```
+
+### GraphQL
+- Uses `Typed Query Language`.
+- Single `POST` request endpoint. For e.g.
+    ```
+    POST    /graphql
+    ```
+- `POST Request Body` contains `Query Expression (to define the Data that should be returned)`.
+- **Operation Types:**
+    * `Query`: To retrieve data.
+    * `Mutation`: To manipulate data.
+    * `Subscription`: To set up realtime connection via `Websockets`.
