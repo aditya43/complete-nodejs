@@ -189,7 +189,10 @@ exports.updatePost = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
     try {
         const posts = await models.post.findAll({
-            where: { id: req.params.postId }
+            where: {
+                id: req.params.postId,
+                creator: req.userId
+            }
         });
 
         if (!posts.length || posts.length < 1) {
