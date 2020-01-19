@@ -56,14 +56,7 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        const token = jwt.sign({
-            email: user.email,
-            userId: user.id
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: '1h'
-        });
+        const token = jwt.sign({ email: user.email, userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.status(201).json({
             code: 201,
