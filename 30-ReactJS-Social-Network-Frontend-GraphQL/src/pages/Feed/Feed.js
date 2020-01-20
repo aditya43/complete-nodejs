@@ -194,11 +194,21 @@ finishEditHandler = postData => {
             createdAt: resData.data.createPost.createdAt
         };
         this.setState(prevState => {
-                return {
-                    isEditing: false,
-                    editPost: null,
-                    editLoading: false
-                };
+               let updatedPosts = [...prevState.posts];
+               if(prevState.editPost) {
+                   const postIndex = prevState.posts.findIndex(
+                       p => p.id === prevState.editPost.id
+                   );
+                   updatedPosts[postIndex] = post;
+               } else {
+                   updatedPosts.unshift(post);
+               }
+               return {
+                   posts: updatedPosts,
+                   isEditing: false,
+                   editPost: null,
+                   editLoading: false
+               };
             });
         })
         .catch(err => {
