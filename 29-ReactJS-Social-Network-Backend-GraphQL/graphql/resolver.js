@@ -85,12 +85,25 @@ module.exports = {
             throw error;
         }
 
+        const users = await models.user.findAll({ where: { id: req.userId } });
+
+        if (!users.length || users.length < 1) {
+            const error = new Error('User not found.');
+            error.code = 401;
+            throw error;
+        }
+
         const newPost = await models.post.create({
             title,
             content,
             imageUrl: imageUrl || 'images/no-product-image.jpg',
             creator: req.userId || 1
         });
+
+        const posts = await models.post.findAll({ where: { id: newPost.id } });
+
+        posts[0].creator = posts[0].user;
+        delete posts[0].user;
 
         return {
             id: newPost.id,
