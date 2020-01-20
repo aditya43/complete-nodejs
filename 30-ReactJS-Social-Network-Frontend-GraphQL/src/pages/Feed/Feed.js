@@ -53,7 +53,7 @@ class Feed extends Component {
         const graphqlQuery = {
             query: `
                 {
-                    posts {
+                    posts(page: ${page}) {
                         posts {
                             id
                             title
@@ -66,6 +66,7 @@ class Feed extends Component {
                             createdAt
                             updatedAt
                         }
+                        totalPosts
                     }
                 }
             `
@@ -201,6 +202,7 @@ finishEditHandler = postData => {
                    );
                    updatedPosts[postIndex] = post;
                } else {
+                   updatedPosts.pop();
                    updatedPosts.unshift(post);
                }
                return {

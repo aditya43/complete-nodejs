@@ -116,14 +116,14 @@ module.exports = {
         };
     },
 
-    posts: async function (args, req) {
+    posts: async function ({ page }, req) {
         if (!req.isAuth) {
             const error = new Error('Not authenticated');
             error.code = 401;
-            throw error;
+            // throw error;
         }
 
-        const currentPage = req.query.page || 1;
+        const currentPage = page || 1;
         const perPage = 2;
         const totalItems = await models.post.count();
 
