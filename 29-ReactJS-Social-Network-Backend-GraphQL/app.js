@@ -25,7 +25,13 @@ app.options('*', cors());
 app.use(cors());
 app.use(multer);
 
+app.use(checkAuth); // Check authentication.
+
 app.put('/post-image', async (req, res, next) => {
+    if (!req.isAuth) {
+        throw new Error('Not authenticated');
+    }
+
     if (!req.file) {
         return res.status(200).json({ message: 'No file provided' });
     }
@@ -39,8 +45,6 @@ app.put('/post-image', async (req, res, next) => {
         filePath: req.file.path
     });
 });
-
-app.use(checkAuth); // Check authentication.
 
 // GraphQL
 app.use('/graphql', graphqlHttp({

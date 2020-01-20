@@ -142,38 +142,49 @@ finishEditHandler = postData => {
 
     const formData = new FormData();
 
-    formData.append('title', postData.title);
-    formData.append('content', postData.content);
     formData.append('image', postData.image);
 
-    let graphqlQuery = {
-        query: `
-            mutation {
-                createPost(postInput: {
-                    title: "${postData.title}",
-                    content: "${postData.content}",
-                    imageUrl: ""
-                }) {
-                    id
-                    title
-                    content
-                    imageUrl
-                    creator {
-                        name
-                    }
-                    createdAt
-                }
-            }
-        `
-    };
-
-    fetch('http://localhost:8080/graphql', {
-        method: 'POST',
-        body: JSON.stringify(graphqlQuery),
+    if(this.state.editPost) {
+        formData.append('oldPath', this.state.editPost.imagePath);
+    }
+    fetch('http://localhost:8080/post-image', {
+        method: 'PUT',
         headers: {
             Authorization: `Bearer ${this.props.token}`,
-            'Content-Type': 'application/json'
-        }
+        },
+        body: formData
+    }).then(res => res.json())
+    .then(fileResData => {
+        const imageUrl = fileResData.filePath;
+        let graphqlQuery = {
+            query: `
+                mutation {
+                    createPost(postInput: {
+                        title: "${postData.title}",
+                        content: "${postData.content}",
+                        imageUrl: "${imageUrl}"
+                    }) {
+                        id
+                        title
+                        content
+                        imageUrl
+                        creator {
+                            name
+                        }
+                        createdAt
+                    }
+                }
+            `
+        };
+
+        return fetch('http://localhost:8080/graphql', {
+            method: 'POST',
+            body: JSON.stringify(graphqlQuery),
+            headers: {
+                Authorization: `Bearer ${this.props.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
     })
     .then(res => {
         return res.json();
@@ -191,6 +202,7 @@ finishEditHandler = postData => {
             id: resData.data.createPost.id,
             title: resData.data.createPost.title,
             content: resData.data.createPost.content,
+            imagePath: resData.data.createPost.imageUrl,
             creator: resData.data.createPost.creator,
             createdAt: resData.data.createPost.createdAt
         };
