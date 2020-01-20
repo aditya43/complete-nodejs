@@ -1,3 +1,5 @@
+const { clearImage } = require('../utils/fileUtils');
+
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const models = require('../models/index');
@@ -241,5 +243,31 @@ module.exports = {
             createdAt: updatedPost.createdAt.toISOString(),
             updatedAt: updatedPost.updatedAt.toISOString()
         };
+    },
+
+    deletePost: async function ({ id }, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            throw error;
+        }
+
+        const posts = await models.post.findAll({
+            where: {
+                id,
+                creator: req.userId
+            }
+        });
+
+        if (!posts.length || posts.length < 1) {
+            const error = new Error('Post not found');
+            error.code = 404;
+            throw error;
+        }
+
+        clearImage(posts[0].imageUrl);
+        await posts[0].destroy();
+
+        return true;
     }
 };

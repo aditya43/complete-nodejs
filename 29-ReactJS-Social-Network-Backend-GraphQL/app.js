@@ -1,5 +1,8 @@
 require('./utils/loadEnv');
 
+// Utils
+const { clearImage } = require('./utils/fileUtils');
+
 // Middlewares
 const errorLogger = require('./middleware/errorLogger');
 const multer = require('./middleware/multer');
@@ -10,7 +13,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fs = require('fs');
 
 // GraphQL
 const graphqlHttp = require('express-graphql');
@@ -68,8 +70,3 @@ app.use(errorLogger);
 
 // Boot up
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
-
-const clearImage = filePath => {
-    filePath = path.join(__dirname, '..', filePath);
-    fs.unlink(filePath, err => console.log(err));
-};
