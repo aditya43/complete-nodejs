@@ -3,6 +3,7 @@ require('./utils/loadEnv');
 // Middlewares
 const errorLogger = require('./middleware/errorLogger');
 const multer = require('./middleware/multer');
+const checkAuth = require('./middleware/checkAuthentication');
 
 // Express config
 const express = require('express');
@@ -22,6 +23,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.options('*', cors());
 app.use(cors());
 app.use(multer);
+app.use(checkAuth); // Check authentication.
 
 // GraphQL
 app.use('/graphql', graphqlHttp({
