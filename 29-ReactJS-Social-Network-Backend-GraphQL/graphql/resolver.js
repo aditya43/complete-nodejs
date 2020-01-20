@@ -106,12 +106,13 @@ module.exports = {
         delete posts[0].user;
 
         return {
-            id: newPost.id,
-            title: newPost.title,
-            content: newPost.content,
-            imageUrl: newPost.imageUrl,
-            createdAt: newPost.createdAt,
-            updatedAt: newPost.updatedAt
+            id: posts[0].id,
+            title: posts[0].title,
+            content: posts[0].content,
+            imageUrl: posts[0].imageUrl,
+            creator: posts[0].creator,
+            createdAt: posts[0].createdAt,
+            updatedAt: posts[0].updatedAt
         };
     }
 };
