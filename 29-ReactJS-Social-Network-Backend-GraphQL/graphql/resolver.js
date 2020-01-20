@@ -111,8 +111,8 @@ module.exports = {
             content: posts[0].content,
             imageUrl: posts[0].imageUrl,
             creator: posts[0].creator,
-            createdAt: posts[0].createdAt,
-            updatedAt: posts[0].updatedAt
+            createdAt: posts[0].createdAt.toISOString(),
+            updatedAt: posts[0].updatedAt.toISOString()
         };
     },
 
@@ -144,8 +144,8 @@ module.exports = {
                     content: post.content,
                     imageUrl: post.imageUrl,
                     creator: post.user,
-                    createdAt: post.createdAt,
-                    updatedAt: post.updatedAt
+                    createdAt: post.createdAt.toISOString(),
+                    updatedAt: post.updatedAt.toISOString()
                 };
             }),
             totalPosts: totalItems
@@ -178,8 +178,8 @@ module.exports = {
             content: posts[0].content,
             imageUrl: posts[0].imageUrl,
             creator: posts[0].creator,
-            createdAt: posts[0].createdAt,
-            updatedAt: posts[0].updatedAt
+            createdAt: posts[0].createdAt.toISOString(),
+            updatedAt: posts[0].updatedAt.toISOString()
         };
     }
 };
