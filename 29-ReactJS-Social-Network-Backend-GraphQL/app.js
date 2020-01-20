@@ -10,6 +10,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs');
 
 // GraphQL
 const graphqlHttp = require('express-graphql');
@@ -23,6 +24,22 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.options('*', cors());
 app.use(cors());
 app.use(multer);
+
+app.put('/post-image', async (req, res, next) => {
+    if (!req.file) {
+        return res.status(200).json({ message: 'No file provided' });
+    }
+
+    if (req.body.oldPath) {
+        clearImage(req.body.oldPath);
+    }
+
+    return res.status(201).json({
+        message: 'File uploaded',
+        filePath: req.file.path
+    });
+});
+
 app.use(checkAuth); // Check authentication.
 
 // GraphQL
@@ -47,3 +64,8 @@ app.use(errorLogger);
 
 // Boot up
 app.listen(process.env.PORT, () => console.log(`Server is running on ${process.env.PORT}`));
+
+const clearImage = filePath => {
+    filePath = path.join(__dirname, '..', filePath);
+    fs.unlink(filePath, err => console.log(err));
+};
