@@ -156,7 +156,7 @@ module.exports = {
         if (!req.isAuth) {
             const error = new Error('Not authenticated');
             error.code = 401;
-            // throw error;
+            throw error;
         }
 
         const posts = await models.post.findAll({
