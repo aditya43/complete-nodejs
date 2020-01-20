@@ -114,5 +114,41 @@ module.exports = {
             createdAt: posts[0].createdAt,
             updatedAt: posts[0].updatedAt
         };
+    },
+
+    posts: async function (args, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            throw error;
+        }
+
+        const currentPage = req.query.page || 1;
+        const perPage = 2;
+        const totalItems = await models.post.count();
+
+        const posts = await models.post.findAll({
+            offset: ((currentPage - 1) * perPage),
+            limit: perPage,
+            order: [
+                ['createdAt', 'DESC']
+            ]
+            // include: ['user']
+        });
+
+        return {
+            posts: posts.map(post => {
+                return {
+                    id: post.id,
+                    title: post.title,
+                    content: post.content,
+                    imageUrl: post.imageUrl,
+                    creator: post.user,
+                    createdAt: post.createdAt,
+                    updatedAt: post.updatedAt
+                };
+            }),
+            totalPosts: totalItems
+        };
     }
 };
