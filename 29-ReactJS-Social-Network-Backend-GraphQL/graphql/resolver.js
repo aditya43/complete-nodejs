@@ -58,5 +58,40 @@ module.exports = {
             token,
             userId: user.id
         };
+    },
+
+    createPost: async function (args, req) {
+        const { postInput } = args;
+        const errors = [];
+        if (validator.isEmpty(postInput.title) || !validator.isLength(postInput.title, { min: 3 })) {
+            errors.push({ message: 'Title is invalid' });
+        }
+
+        if (validator.isEmpty(postInput.content) || !validator.isLength(postInput.content, { min: 3 })) {
+            errors.push({ message: 'Content is invalid' });
+        }
+
+        if (errors.length > 0) {
+            const error = new Error('Invalid input data');
+            error.data = errors;
+            error.code = 422;
+            throw error;
+        }
+
+        const newPost = await models.post.create({
+            title: postInput.title,
+            content: postInput.content,
+            imageUrl: postInput.imageUrl || 'images/no-product-image.jpg',
+            creator: req.userId || 1
+        });
+
+        return {
+            id: newPost.id,
+            title: newPost.title,
+            content: newPost.content,
+            imageUrl: newPost.imageUrl,
+            createdAt: newPost.createdAt,
+            updatedAt: newPost.updatedAt
+        };
     }
 };
