@@ -33,7 +33,7 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        login(email: String!, passowrd: String!): LoggedinUser!
+        login(email: String!, password: String!): LoggedinUser!
     }
 
     type RootMutation {

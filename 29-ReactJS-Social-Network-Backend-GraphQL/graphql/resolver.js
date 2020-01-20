@@ -40,8 +40,9 @@ module.exports = {
             name: user.name
         };
     },
+
     login: async function (args, req) {
-        const { email, password } = args.userInput;
+        const { email, password } = args;
 
         const user = await models.user.findByCredentials(email, password);
 
