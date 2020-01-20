@@ -121,27 +121,46 @@ finishEditHandler = postData => {
     formData.append('content', postData.content);
     formData.append('image', postData.image);
 
-    let url = 'http://localhost:8080/feed/post';
-    let method = 'POST';
-    if (this.state.editPost) {
-        url = `http://localhost:8080/feed/post/${this.state.editPost.id}`;
-        method = 'PUT';
-    }
+    let graphqlQuery = {
+        query: `
+            mutation {
+                createPost(postInput: {
+                    title: "${postData.title}",
+                    content: "${postData.content}",
+                    imageUrl: ""
+                }) {
+                    id
+                    title
+                    content
+                    imageUrl
+                    creator {
+                        name
+                    }
+                    createdAt
+                }
+            }
+        `
+    };
 
-    fetch(url, {
-        method,
-        body: formData,
+    fetch('http://localhost:8080/graphql', {
+        method: 'POST',
+        body: JSON.stringify(graphqlQuery),
         headers: {
-            Authorization: `Bearer ${this.props.token}`
+            Authorization: `Bearer ${this.props.token}`,
+            'Content-Type': 'application/json'
         }
     })
     .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-            throw new Error('Creating or editing a post failed!');
-        }
         return res.json();
     })
     .then(resData => {
+        if (resData.errors && resData.errors[0].status === 422) {
+            console.log('Error!');
+            throw new Error('Failed to create new post');
+        }
+        if(resData.errors) {
+            throw new Error('Failed to create new post')
+        }
         console.log(resData);
         const post = {
             id: resData.post.id,
