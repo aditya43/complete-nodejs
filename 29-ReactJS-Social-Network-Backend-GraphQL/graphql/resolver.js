@@ -97,7 +97,7 @@ module.exports = {
             title,
             content,
             imageUrl: imageUrl || 'images/no-product-image.jpg',
-            creator: req.userId || 1
+            creator: req.userId
         });
 
         const posts = await models.post.findAll({ where: { id: newPost.id } });
@@ -180,6 +180,66 @@ module.exports = {
             creator: posts[0].creator,
             createdAt: posts[0].createdAt.toISOString(),
             updatedAt: posts[0].updatedAt.toISOString()
+        };
+    },
+
+    updatePost: async function ({ id, postInput }, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            throw error;
+        }
+
+        const errors = [];
+
+        if (validator.isEmpty(postInput.title) || !validator.isLength(postInput.title, { min: 3 })) {
+            errors.push({ message: 'Title is invalid' });
+        }
+
+        if (validator.isEmpty(postInput.content) || !validator.isLength(postInput.content, { min: 3 })) {
+            errors.push({ message: 'Content is invalid' });
+        }
+
+        if (errors.length > 0) {
+            const error = new Error('Invalid input data');
+            error.data = errors;
+            error.code = 422;
+            throw error;
+        }
+
+        const posts = await models.post.findAll({
+            where: {
+                id,
+                creator: req.userId
+            }
+        });
+
+        if (!posts.length || posts.length < 1) {
+            const error = new Error('Post not found');
+            error.code = 404;
+            throw error;
+        }
+
+        posts[0].title = postInput.title;
+        posts[0].content = postInput.content;
+
+        if (typeof postInput.imageUrl != 'undefined') {
+            posts[0].imageUrl = postInput.imageUrl;
+        }
+
+        const updatedPost = await posts[0].save();
+
+        updatedPost.creator = updatedPost.user;
+        delete updatedPost.user;
+
+        return {
+            id: updatedPost.id,
+            title: updatedPost.title,
+            content: updatedPost.content,
+            imageUrl: updatedPost.imageUrl,
+            creator: updatedPost.creator,
+            createdAt: updatedPost.createdAt.toISOString(),
+            updatedAt: updatedPost.updatedAt.toISOString()
         };
     }
 };
