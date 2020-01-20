@@ -163,11 +163,11 @@ finishEditHandler = postData => {
         }
         console.log(resData);
         const post = {
-            id: resData.post.id,
-            title: resData.post.title,
-            content: resData.post.content,
-            creator: resData.post.creator,
-            createdAt: resData.post.createdAt
+            id: resData.data.createPost.id,
+            title: resData.data.createPost.title,
+            content: resData.data.createPost.content,
+            creator: resData.data.createPost.creator,
+            createdAt: resData.data.createPost.createdAt
         };
         this.setState(prevState => {
                 return {
