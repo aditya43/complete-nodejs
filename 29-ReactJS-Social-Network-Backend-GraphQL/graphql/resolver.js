@@ -61,13 +61,14 @@ module.exports = {
     },
 
     createPost: async function (args, req) {
-        const { postInput } = args;
+        const { title, content, imageUrl } = args.postInput;
         const errors = [];
-        if (validator.isEmpty(postInput.title) || !validator.isLength(postInput.title, { min: 3 })) {
+
+        if (validator.isEmpty(title) || !validator.isLength(title, { min: 3 })) {
             errors.push({ message: 'Title is invalid' });
         }
 
-        if (validator.isEmpty(postInput.content) || !validator.isLength(postInput.content, { min: 3 })) {
+        if (validator.isEmpty(content) || !validator.isLength(content, { min: 3 })) {
             errors.push({ message: 'Content is invalid' });
         }
 
@@ -79,9 +80,9 @@ module.exports = {
         }
 
         const newPost = await models.post.create({
-            title: postInput.title,
-            content: postInput.content,
-            imageUrl: postInput.imageUrl || 'images/no-product-image.jpg',
+            title,
+            content,
+            imageUrl: imageUrl || 'images/no-product-image.jpg',
             creator: req.userId || 1
         });
 
