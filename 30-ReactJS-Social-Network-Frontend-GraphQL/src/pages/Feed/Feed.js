@@ -177,6 +177,29 @@ finishEditHandler = postData => {
             `
         };
 
+        if(this.state.editPost) {
+            graphqlQuery = {
+                query: `
+                    mutation {
+                        updatePost(id: "${this.state.editPost.id}", postInput: {
+                            title: "${postData.title}",
+                            content: "${postData.content}",
+                            imageUrl: "${imageUrl}"
+                        }) {
+                            id
+                            title
+                            content
+                            imageUrl
+                            creator {
+                                name
+                            }
+                            createdAt
+                        }
+                    }
+                `
+            };
+        }
+
         return fetch('http://localhost:8080/graphql', {
             method: 'POST',
             body: JSON.stringify(graphqlQuery),
@@ -198,13 +221,14 @@ finishEditHandler = postData => {
             throw new Error('Failed to create new post')
         }
         console.log(resData);
+        const resDataField = this.state.editPost ? 'updatePost' : 'createPost';
         const post = {
-            id: resData.data.createPost.id,
-            title: resData.data.createPost.title,
-            content: resData.data.createPost.content,
-            imagePath: resData.data.createPost.imageUrl,
-            creator: resData.data.createPost.creator,
-            createdAt: resData.data.createPost.createdAt
+            id: resData.data[resDataField].id,
+            title: resData.data[resDataField].title,
+            content: resData.data[resDataField].content,
+            imagePath: resData.data[resDataField].imageUrl,
+            creator: resData.data[resDataField].creator,
+            createdAt: resData.data[resDataField].createdAt
         };
         this.setState(prevState => {
                let updatedPosts = [...prevState.posts];
