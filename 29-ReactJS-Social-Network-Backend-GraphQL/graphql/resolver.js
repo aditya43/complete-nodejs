@@ -150,5 +150,36 @@ module.exports = {
             }),
             totalPosts: totalItems
         };
+    },
+
+    post: async function ({ id }, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            // throw error;
+        }
+
+        const posts = await models.post.findAll({
+            where: { id }
+        });
+
+        if (!posts.length || posts.length < 1) {
+            const error = new Error('Post not found');
+            error.code = 404;
+            throw error;
+        }
+
+        posts[0].creator = posts[0].user;
+        delete posts[0].user;
+
+        return {
+            id: posts[0].id,
+            title: posts[0].title,
+            content: posts[0].content,
+            imageUrl: posts[0].imageUrl,
+            creator: posts[0].creator,
+            createdAt: posts[0].createdAt,
+            updatedAt: posts[0].updatedAt
+        };
     }
 };
