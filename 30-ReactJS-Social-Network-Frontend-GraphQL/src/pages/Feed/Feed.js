@@ -69,7 +69,7 @@ class Feed extends Component {
         }
         const graphqlQuery = {
             query: `
-                query FetchPosts($page: Int) {
+                query FetchPosts($page: Int!) {
                     posts(page: $page) {
                         posts {
                             id
@@ -125,7 +125,7 @@ statusUpdateHandler = event => {
     event.preventDefault();
     const graphqlQuery = {
         query: `
-            mutation UpdateUserStatus ($userStatus: String){
+            mutation UpdateUserStatus ($userStatus: String!){
                 updateStatus(status: $userStatus) {
                     status
                 }
@@ -197,11 +197,11 @@ finishEditHandler = postData => {
         const imageUrl = fileResData.filePath;
         let graphqlQuery = {
             query: `
-                mutation CreateNewPost ($title: String, $content: String, imageUrl: String) {
+                mutation CreateNewPost ($title: String!, $content: String!, $imageUrl: String!) {
                     createPost(postInput: {
                         title: $title,
                         content: $content,
-                        imageUrl: "$imageUrl"
+                        imageUrl: $imageUrl
                     }) {
                         id
                         title
@@ -224,7 +224,7 @@ finishEditHandler = postData => {
         if(this.state.editPost) {
             graphqlQuery = {
                 query: `
-                    mutation UpdateExistingPost ($postId: ID, $title: String, $content: String, imageUrl: String) {
+                    mutation UpdateExistingPost ($postId: ID, $title: String!, $content: String!, $imageUrl: String!) {
                         updatePost(id: $postId, postInput: {
                             title: $title,
                             content: $content,
@@ -318,10 +318,13 @@ finishEditHandler = postData => {
         this.setState({ postsLoading: true });
         const graphqlQuery = {
             query: `
-                mutation {
-                    deletePost(id: "${postId}")
+                mutation DeletePost($postId: ID!) {
+                    deletePost(id: $postId)
                 }
-            `
+            `,
+            variables: {
+                postId
+            }
         }
         fetch('http://localhost:8080/graphql', {
             method: 'POST',
