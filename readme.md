@@ -156,7 +156,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 
 ### Mongoose - Things To Know
 - While defining methods on `Schema`, avoid `Arrow Functions`. Instead opt out for `function()`.
-    * **Reason: ** `this` is not available in `Arrow Functions`.
+    * **Reason:** `this` is not available in `Arrow Functions`.
     * Refer to following examples:
         ```
             17-Shop-App-Mongoose/models/user.js
