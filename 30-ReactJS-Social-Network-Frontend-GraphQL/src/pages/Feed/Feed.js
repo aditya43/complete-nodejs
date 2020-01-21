@@ -224,11 +224,11 @@ finishEditHandler = postData => {
         if(this.state.editPost) {
             graphqlQuery = {
                 query: `
-                    mutation {
-                        updatePost(id: "${this.state.editPost.id}", postInput: {
-                            title: "${postData.title}",
-                            content: "${postData.content}",
-                            imageUrl: "${imageUrl}"
+                    mutation UpdateExistingPost ($postId: ID, $title: String, $content: String, imageUrl: String) {
+                        updatePost(id: $postId, postInput: {
+                            title: $title,
+                            content: $content,
+                            imageUrl: $imageUrl
                         }) {
                             id
                             title
@@ -240,7 +240,13 @@ finishEditHandler = postData => {
                             createdAt
                         }
                     }
-                `
+                `,
+                variables: {
+                    postId: this.state.editPost.id,
+                    title: postData.title,
+                    content: postData.content,
+                    imageUrl
+                }
             };
         }
 
