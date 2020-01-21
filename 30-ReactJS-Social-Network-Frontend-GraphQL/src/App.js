@@ -60,13 +60,17 @@ class App extends Component {
         event.preventDefault();
         const graphqlQuery = {
             query: `
-                {
-                    login(email: "${authData.email}", password: "${authData.password}") {
+                query Login ($email: String, $password: String) {
+                    login(email: $email, password: $password) {
                         token
                         userId
                     }
                 }
-            `
+            `,
+            variables: {
+                email: authData.email,
+                password: authData.password
+            }
         };
         this.setState({ authLoading: true });
         fetch(`http://localhost:8080/graphql`, {
