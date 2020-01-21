@@ -1,0 +1,10 @@
+{
+    "env": {
+        "PORT":"3000",
+        "MYSQL_HOST":"127.0.0.1",
+        "MYSQL_DATABASE":"nodejs-shop",
+        "MYSQL_USER":"root",
+        "MYSQL_PASSWORD":"adi123",
+        "MYSQL_PORT":"3306"
+    }
+}
