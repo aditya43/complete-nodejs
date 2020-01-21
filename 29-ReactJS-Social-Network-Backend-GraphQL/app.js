@@ -13,6 +13,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet');
 
 // GraphQL
 const graphqlHttp = require('express-graphql');
@@ -20,6 +21,7 @@ const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolver');
 
 const app = express();
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));

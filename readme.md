@@ -1,5 +1,5 @@
 ## About This Project
-NodeJS - Express, Mongo, Sequelize, Sequelize-CLI, Mongoose, Socket.io, REST APIs, ReactJS Social Network & lot more.
+NodeJS - Express, Mongo, Sequelize, Sequelize-CLI, Mongoose, GraphQL, Websockets, Socket.io, REST APIs, ReactJS Social Network, Winston, Morgan, Helmet, Compression, Validators, SSL/TLS, Micro Services Architecture & lot more.
 My personal notes and apps.
 
 ## Author

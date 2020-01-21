@@ -9,12 +9,14 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet');
 
 // Route
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
 
 const app = express();
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
