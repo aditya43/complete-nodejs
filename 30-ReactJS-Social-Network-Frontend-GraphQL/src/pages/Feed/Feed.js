@@ -125,12 +125,15 @@ statusUpdateHandler = event => {
     event.preventDefault();
     const graphqlQuery = {
         query: `
-            mutation {
-                updateStatus(status: "${this.state.status}") {
+            mutation UpdateUserStatus ($userStatus: String){
+                updateStatus(status: $userStatus) {
                     status
                 }
             }
-        `
+        `,
+        variables: {
+            userStatus: this.state.status
+        }
     };
     fetch(`http://localhost:8080/graphql`, {
         method: 'POST',

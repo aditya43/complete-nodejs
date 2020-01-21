@@ -32,6 +32,7 @@ Open-sourced software licensed under the [MIT license](http://opensource.org/lic
 - [Storing Sessions In MongoDB](#storing-sessions-in-mongodb)
 - [Allow CORS For REST APIs](#allow-cors-for-rest-apis)
 - [GraphQL](#graphql)
+- [GraphQL Query Variables](#graphql-query-variables)
 
 ### Options Request
 - Browser sends a `OPTIONS` request before it sends `POST, PATCH, PUT, DELETE` etc.. requests.
@@ -292,3 +293,85 @@ app.use(session({
     * `Query`: To retrieve data.
     * `Mutation`: To manipulate data.
     * `Subscription`: To set up realtime connection via `Websockets`.
+
+### GraphQL Query Variables
+- **Example #1**
+    * Query without using variables (**Non-Recommended Way**):
+    ```
+        const graphqlQuery = {
+            query: `
+                {
+                    posts(page: ${page}) {
+                        posts {
+                            id
+                            title
+                            content
+                            imageUrl
+                            creator {
+                                name
+                                email
+                            }
+                            createdAt
+                            updatedAt
+                        }
+                        totalPosts
+                    }
+                }
+            `
+        }
+    ```
+    * Query using explicit variables (**Recommended Way**):
+    ```
+        const graphqlQuery = {
+            query: `
+                query FetchPosts($page: Int) {
+                    posts(page: $page) {
+                        posts {
+                            id
+                            title
+                            content
+                            imageUrl
+                            creator {
+                                name
+                                email
+                            }
+                            createdAt
+                            updatedAt
+                        }
+                        totalPosts
+                    }
+                }
+            `,
+            variables: {
+                page
+            }
+        };
+    ```
+- **Example #2**
+    * Query without using variables (**Non-Recommended Way**):
+    ```
+        const graphqlQuery = {
+            query: `
+                mutation {
+                    updateStatus(status: "${this.state.status}") {
+                        status
+                    }
+                }
+            `
+        };
+    ```
+    * Query using explicit variables (**Recommended Way**):
+    ```
+        const graphqlQuery = {
+            query: `
+                mutation UpdateUserStatus ($userStatus: String) {
+                    updateStatus(status: $userStatus) {
+                        status
+                    }
+                }
+            `,
+            variables: {
+                userStatus: this.state.status
+            }
+        };
+    ```
