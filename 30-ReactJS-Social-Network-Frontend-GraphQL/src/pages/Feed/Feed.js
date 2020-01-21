@@ -197,11 +197,11 @@ finishEditHandler = postData => {
         const imageUrl = fileResData.filePath;
         let graphqlQuery = {
             query: `
-                mutation {
+                mutation CreateNewPost ($title: String, $content: String, imageUrl: String) {
                     createPost(postInput: {
-                        title: "${postData.title}",
-                        content: "${postData.content}",
-                        imageUrl: "${imageUrl}"
+                        title: $title,
+                        content: $content,
+                        imageUrl: "$imageUrl"
                     }) {
                         id
                         title
@@ -213,7 +213,12 @@ finishEditHandler = postData => {
                         createdAt
                     }
                 }
-            `
+            `,
+            variables: {
+                title: postData.title,
+                content: postData.content,
+                imageUrl
+            }
         };
 
         if(this.state.editPost) {
