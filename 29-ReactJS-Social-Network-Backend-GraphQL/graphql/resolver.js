@@ -275,7 +275,7 @@ module.exports = {
         if (!req.isAuth) {
             const error = new Error('Not authenticated');
             error.code = 401;
-            throw error;
+            // throw error;
         }
 
         const users = await models.user.findAll({ where: { id: req.userId } });

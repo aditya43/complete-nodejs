@@ -22,15 +22,32 @@ class Feed extends Component {
     };
 
     componentDidMount() {
-        fetch('URL')
+        const graphqlQuery = {
+            query: `
+                {
+                    user {
+                        status
+                    }
+                }
+            `
+        };
+        fetch(`http://localhost:8080/graphql`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${this.props.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(graphqlQuery)
+        })
         .then(res => {
-            if (res.status !== 200) {
-                throw new Error('Failed to fetch user status.');
-            }
             return res.json();
         })
         .then(resData => {
-            this.setState({ status: resData.status });
+            console.log(resData)
+            if(resData.errors) {
+                throw new Error('Failed to fetch user status');
+            }
+            this.setState({ status: resData.data.user.status });
         })
         .catch(this.catchError);
 
