@@ -285,6 +285,32 @@ module.exports = {
             error.code = 401;
             throw error;
         }
+        console.log(users);
+        return {
+            id: users[0].id,
+            name: users[0].name,
+            email: users[0].email,
+            status: users[0].status
+        };
+    },
+
+    updateStatus: async function ({ status }, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            throw error;
+        }
+
+        const users = await models.user.findAll({ where: { id: req.userId } });
+
+        if (!users.length || users.length < 1) {
+            const error = new Error('User not found.');
+            error.code = 401;
+            throw error;
+        }
+
+        users[0].status = status;
+        await users[0].save();
 
         return {
             id: users[0].id,
