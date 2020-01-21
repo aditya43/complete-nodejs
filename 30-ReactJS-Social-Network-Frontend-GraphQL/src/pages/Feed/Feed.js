@@ -282,20 +282,25 @@ finishEditHandler = postData => {
         };
         this.setState(prevState => {
                let updatedPosts = [...prevState.posts];
+               let updatedTotalPosts = prevState.totalPostsl;
                if(prevState.editPost) {
                    const postIndex = prevState.posts.findIndex(
                        p => p.id === prevState.editPost.id
                    );
                    updatedPosts[postIndex] = post;
                } else {
-                   updatedPosts.pop();
+                   updatedTotalPosts++;
+                   if(prevState.posts.length >= 2) {
+                       updatedPosts.pop();
+                   }
                    updatedPosts.unshift(post);
                }
                return {
                    posts: updatedPosts,
                    isEditing: false,
                    editPost: null,
-                   editLoading: false
+                   editLoading: false,
+                   totalPosts: updatedTotalPosts
                };
             });
         })
