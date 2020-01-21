@@ -269,5 +269,28 @@ module.exports = {
         await posts[0].destroy();
 
         return true;
+    },
+
+    user: async function (args, req) {
+        if (!req.isAuth) {
+            const error = new Error('Not authenticated');
+            error.code = 401;
+            throw error;
+        }
+
+        const users = await models.user.findAll({ where: { id: req.userId } });
+
+        if (!users.length || users.length < 1) {
+            const error = new Error('User not found.');
+            error.code = 401;
+            throw error;
+        }
+
+        return {
+            id: users[0].id,
+            name: users[0].name,
+            email: users[0].email,
+            status: users[0].status
+        };
     }
 };
